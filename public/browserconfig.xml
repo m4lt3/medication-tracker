@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<browserconfig>
+    <msapplication>
+        <tile>
+            <square150x150logo src="/medication-tracker/mstile-150x150.png"/>
+            <TileColor>#e60005</TileColor>
+        </tile>
+    </msapplication>
+</browserconfig>
