@@ -279,7 +279,7 @@ handler.update = (storeName, id, newItem) => {
 
     // Validating
     try {
-      await validate(storeName, item);
+      await validate(storeName, newItem);
     } catch (e) {
       reject(e);
       return
@@ -289,7 +289,7 @@ handler.update = (storeName, id, newItem) => {
 
     const transaction = db.db.transaction([storeName], "readwrite");
     const insertStore = transaction.objectStore(storeName);
-    const request = insertStore.put(item, id);
+    const request = insertStore.put(newItem, id);
 
     request.onerror = (e) => {
       reject(e);
