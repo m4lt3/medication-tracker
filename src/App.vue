@@ -1,12 +1,13 @@
 <script setup>
-  import { handler as db, storeNames } from '@/utils/DataHandler.js';
+  import { onMounted } from 'vue';
+  import { useIndexedStore } from '@/store/indexed';
 
-  db.init().then(() => {
-    for (let storeName in storeNames) {
-      db.sanitizeStore(storeNames[storeName]);
-    }
+  const indexedStore = useIndexedStore();
 
+  onMounted(() => {
+    indexedStore.init();
   });
+  
 </script>
 
 <template>
