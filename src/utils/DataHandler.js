@@ -68,7 +68,6 @@ handler.init = () => {
     };
 
     request.onsuccess = (e) => {
-      console.log("Connected to database");
       db.db = e.target.result;
       resolve();
     };
@@ -76,11 +75,9 @@ handler.init = () => {
     request.onupgradeneeded = (e) => {
       db.db = e.target.result;
 
-      console.log("Creating database Structure");
       for (let storeName in storeNames) {
         db.stores[storeName] = db.db.createObjectStore(storeNames[storeName], { autoIncrement: true });
       }
-      console.log("Structure created");
     };
   });
 
@@ -93,29 +90,26 @@ handler.sanitizeStore = (storeName) =>  {
       return;
     }
 
-    console.log("Sanitizing store " + storeName);
 
-    let items = await handler.loadAllFrom(storeName);
+    let items = await handler.getAllFrom(storeName);
     let toDelete = [];
 
     for (let itemId in items) {
       try {
         await validate(storeName, items[itemId]);
       } catch (e) {
-        console.log("marking for deletion: " + itemId);
         toDelete.push(itemId);
       }
     }
 
     for (let del of toDelete) {
-      console.log("deleting " + del);
       await handler.delete(storeName, del);
     }
     resolve();
   });
 }
 
-handler.loadAllFrom = (storeName) => {
+handler.getAllFrom = (storeName) => {
   return new Promise((resolve, reject) => {
     if (! db.db.objectStoreNames.contains(storeName)) {
       reject(new Error(`Store with name '${storeName}' does not exist`));
@@ -158,17 +152,17 @@ handler.getById = (storeName, id) => {
 
     const transaction = db.db.transaction([storeName]);
     const loadStore = transaction.objectStore(storeName);
-    const result = loadStore.get(id);
+    let request = loadStore.get(IDBKeyRange.only(id));
 
-    result.onerror = (e) => {
+    request.onerror = (e) => {
       reject(e);
     }
 
-    result.onsuccess = (e) => {
+    request.onsuccess = (e) => {
       // TODO check for encryption
-
-      if (!e.target.result || Object.keys(e.target.result).length == 0) {
+      if ( (e.target.result == undefined) || Object.keys(e.target.result).length == 0) {
         resolve(null);
+        return;
       }
       resolve(e.target.result);
     }
@@ -207,7 +201,6 @@ handler.query = (storeName, filters) => {
               let itemMatched = false;
               for (let item of cursor.value[filter]) {
                 let thisItemMatches = true;
-
                 // checking filters for this element
                 for (let elemFilter in filters[filter].$elemMatch) {
                   if (item[elemFilter] != filters[filter].$elemMatch[elemFilter]) {
@@ -311,17 +304,14 @@ handler.update = (storeName, id, newItem) => {
 
 handler.delete = (storeName, id, retainReferences = true) => {
   return new Promise(async (resolve, reject) => {
+    id = Number(id);
     if (! db.db.objectStoreNames.contains(storeName)) {
       reject(new Error(`Store with name '${storeName}' does not exist`));
       return;
     }
 
-    try {
-
-    } catch (e) {
-
-    }
     let delItem = await handler.getById(storeName, id);
+
 
     if (delItem == null) {
       resolve();
@@ -333,21 +323,21 @@ handler.delete = (storeName, id, retainReferences = true) => {
       switch (getStaticNameOf(storeName)) {
         case 'categories':
           dependents = await handler.query(storeNames.pills, { contents: { $elemMatch: { ingredient: id } } });
-          if (dependents.length > 0) {
+          if (Object.keys(dependents).length > 0) {
             reject(new Error(`Category with the ID '${id}' cannot be deleted as it has pills referencing this ingredient: ` + JSON.stringify(dependents)));
             return;
           }
           break;
         case 'pillGroups':
           dependents = await handler.query(storeNames.pills, { group: id });
-          if (dependents.length > 0) {
+          if (Object.keys(dependents).length > 0) {
             reject(new Error(`Pill group with the ID '${id}' cannot be deleted as it has members: ` + JSON.stringify(dependents)));
             return;
           }
           break;
         case 'pills':
           dependents = await handler.query(storeNames.intakes, { pill: id });
-          if (dependents.length > 0) {
+          if (Object.keys(dependents).length > 0) {
             reject(new Error(`Pill with the ID '${id}' cannot be deleted as it has active intakes: ` + JSON.stringify(dependents)));
             return;
           }
