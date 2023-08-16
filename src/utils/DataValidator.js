@@ -47,7 +47,8 @@ const schemas = {
     type: "object",
     properties: {
       pill: { type: "number" },
-      takenAt: { type: "number" }
+      takenAt: { type: "number" },
+      half: { type: "boolean" }
     },
     required: [ "pill", "takenAt" ],
     additionalProperties: false
