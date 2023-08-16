@@ -8,6 +8,8 @@ const route = useRoute();
   <v-navigation-drawer
     floating
     permanent
+    rail
+    expand-on-hover
   >
     <v-list
       density="compact"
