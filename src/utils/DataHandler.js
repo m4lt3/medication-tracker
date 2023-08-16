@@ -87,40 +87,31 @@ handler.init = () => {
 };
 
 handler.sanitizeStore = (storeName) =>  {
-  return new Promise((resolve, reject) => {
+  return new Promise(async (resolve, reject) => {
     if (! db.db.objectStoreNames.contains(storeName)) {
       reject(new Error(`Store with name '${storeName}' does not exist`));
       return;
     }
 
-    const transaction = db.db.transaction([storeName], "readwrite");
-    const loadStore = transaction.objectStore(storeName);
-    const result = loadStore.openCursor();
+    console.log("Sanitizing store " + storeName);
 
-    result.onerror = (e) => {
-      console.error(`Could not load items from Collection '${storeName}':`, e);
-      reject(e);
-    }
+    let items = await handler.loadAllFrom(storeName);
+    let toDelete = [];
 
-    result.onsuccess = async (e) => {
-      const cursor = e.target.result
-      if (cursor) {
-        // TODO check for encryption
-
-        try {
-          // Validating and removing invalid
-          await validate(storeName, item);
-          cursor.continue();
-        } catch (e) {
-          cursor.delete().onsuccess = (e) => {
-            cursor.continue();
-          }
-        }
-      } else {
-        resolve();
+    for (let itemId in items) {
+      try {
+        await validate(storeName, items[itemId]);
+      } catch (e) {
+        console.log("marking for deletion: " + itemId);
+        toDelete.push(itemId);
       }
-
     }
+
+    for (let del of toDelete) {
+      console.log("deleting " + del);
+      await handler.delete(storeName, del);
+    }
+    resolve();
   });
 }
 
