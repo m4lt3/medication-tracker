@@ -82,17 +82,18 @@ async function save() {
     }
     pill.value = { contents: [] };
   } catch (e) {
-    feedback.value = { visible: true, type: 'error', title: 'Something went wrong!', text: JSON.stringify(e) };
+    feedback.value = { visible: true, type: 'error', title: 'Something went wrong!', text: e.message };
   }
 }
 
 async function deletePill(id) {
+  console.log();
   try {
     await indexedStore.remove("pills", id);
     feedback.value = { visible: true, type: 'success', title: 'Pill deleted!', text: 'This pill will no longer be selectable until added again' };
     emit('change');
   } catch (e) {
-    feedback.value = { visible: true, type: 'error', title: 'Something went wrong!', text: JSON.stringify(e) };
+    feedback.value = { visible: true, type: 'error', title: 'Something went wrong!', text: e.message };
   }
 }
 
@@ -165,7 +166,7 @@ function addNewContent() {
           </v-table>
           <div class="d-flex mt-2">
             <v-btn color="blue" prepend-icon="mdi-content-save" @click="save" style="flex-grow: 3" >Save</v-btn>
-            <DeleteModal v-if="pill.id" style="flex-grow: 1; margin-left: 4px;" @delete="deletePill(pill.id)"></DeleteModal>
+            <DeleteModal v-if="pill.id" style="flex-grow: 1; margin-left: 4px;" @delete="deletePill(Number(pill.id))"></DeleteModal>
           </div>
         </v-form>
       </v-expansion-panel-text>

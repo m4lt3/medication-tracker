@@ -53,7 +53,7 @@ async function save() {
     }
     group.value = {};
   } catch (e) {
-    feedback.value = { visible: true, type: 'error', title: 'Something went wrong!', text: e };
+    feedback.value = { visible: true, type: 'error', title: 'Something went wrong!', text: e.message };
   }
 }
 
@@ -63,7 +63,8 @@ async function deleteGroup(id) {
     feedback.value = { visible: true, type: 'success', title: 'Group deleted!', text: '' };
     emit('change');
   } catch (e) {
-    feedback.value = { visible: true, type: 'error', title: 'Something went wrong!', text: e };
+    console.log(e);
+    feedback.value = { visible: true, type: 'error', title: 'Something went wrong!', text: e.message };
   }
 }
 
@@ -79,7 +80,7 @@ async function deleteGroup(id) {
           <v-text-field v-model="group.name" label="name" :rules="[rules.required]"></v-text-field>
           <div class="d-flex">
             <v-btn color="blue" prepend-icon="mdi-content-save" @click="save" style="flex-grow: 3" >Save</v-btn>
-            <DeleteModal v-if="group.id" style="flex-grow: 1; margin-left: 4px;" @delete="deleteGroup(group.id)"></DeleteModal>
+            <DeleteModal v-if="group.id" style="flex-grow: 1; margin-left: 4px;" @delete="deleteGroup(Number(group.id))"></DeleteModal>
           </div>
         </v-form>
 
