@@ -39,7 +39,7 @@ function validate(storeName, item, checkDependencies = true) {
           }
 
           if (item.group) {
-            if ((await handler.getById(storeName.pillGroups, item.group)) == null) {
+            if ((await handler.getById(storeNames.pillGroups, item.group)) == null) {
               reject(new Error(`referenced pill group with id '${item.group}' does not exist`));
               return;
             }
@@ -150,27 +150,29 @@ handler.loadAllFrom = (storeName) => {
 };
 
 handler.getById = (storeName, id) => {
-  if (! db.db.objectStoreNames.contains(storeName)) {
-    reject(new Error(`Store with name '${storeName}' does not exist`));
-    return;
-  }
-
-  const transaction = db.db.transaction([storeName]);
-  const loadStore = transaction.objectStore(storeName);
-  const result = loadStore.get(id);
-
-  result.onerror = (e) => {
-    reject(e);
-  }
-
-  result.onsuccess = (e) => {
-    // TODO check for encryption
-
-    if (Object.keys(e.target.result).length == 0) {
-      resolve(null);
+  return new Promise((resolve, reject) => {
+    if (! db.db.objectStoreNames.contains(storeName)) {
+      reject(new Error(`Store with name '${storeName}' does not exist`));
+      return;
     }
-    resolve(e.target.result);
-  }
+
+    const transaction = db.db.transaction([storeName]);
+    const loadStore = transaction.objectStore(storeName);
+    const result = loadStore.get(id);
+
+    result.onerror = (e) => {
+      reject(e);
+    }
+
+    result.onsuccess = (e) => {
+      // TODO check for encryption
+
+      if (!e.target.result || Object.keys(e.target.result).length == 0) {
+        resolve(null);
+      }
+      resolve(e.target.result);
+    }
+  });
 };
 
 handler.query = (storeName, filters) => {

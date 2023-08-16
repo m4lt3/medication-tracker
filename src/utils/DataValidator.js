@@ -16,7 +16,7 @@ const schemas = {
             ingredient: { type: "number" },
             amount: { type: "number", minimum: 0 }
           },
-          required: [ "ingedient", "amount" ],
+          required: [ "ingredient", "amount" ],
           additionalProperties: false
         }
       },
@@ -28,7 +28,7 @@ const schemas = {
   pillGroups: {
     type: "object",
     properties: {
-      name: "string"
+      name: { type: "string" }
     },
     required: [ "name" ],
     additionalProperties: false
