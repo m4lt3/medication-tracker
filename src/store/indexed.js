@@ -37,7 +37,7 @@ export const useIndexedStore = defineStore('indexed', () => {
     }
   }
 
-  async function add (store, item, id = 0) {
+  async function add (store, item, id = null) {
     await db.insert(storeNames[store], item, id);
     loadStore(store)
   }
