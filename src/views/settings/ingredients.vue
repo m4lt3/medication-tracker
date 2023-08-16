@@ -13,6 +13,15 @@ const category = ref({ expiresUnit: 'minute', expiresAmount: 0 });
 const categoryForm = ref(null);
 const formValid = ref(false);
 
+const rules = {
+  required: (value) => {
+    if (value) {
+      return true;
+    }
+    return "Required"
+  }
+};
+
 const bufferChanged = ref(false);
 const amount = ref(0);
 const unit = ref("minute");
@@ -144,12 +153,14 @@ function deleteCategory(id) {
           <v-text-field
             label="Name"
             v-model="category.name"
+            :rules="[rules.required]"
           ></v-text-field>
           <v-text-field
             label="Limit (mg)"
             v-model="category.limit"
             type="number"
             min="0"
+            :rules="[rules.required]"
           ></v-text-field>
           <v-row>
             <v-col cols="6">
@@ -158,6 +169,7 @@ function deleteCategory(id) {
                 v-model="category.expiresAmount"
                 type="number"
                 min="0"
+                :rules="[rules.required]"
               ></v-text-field>
             </v-col>
             <v-col cols="6">
@@ -165,6 +177,7 @@ function deleteCategory(id) {
                 :items="[{ title:'Minute(s)', value: 'minute' }, { title:'Hour(s)', value: 'hour' }, { title:'Day(s)', value: 'day' }]"
                 v-model="category.expiresUnit"
                 class="mx-1"
+                :rules="[rules.required]"
               ></v-select>
             </v-col>
           </v-row>
