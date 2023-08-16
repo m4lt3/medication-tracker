@@ -1,7 +1,12 @@
 <script setup>
-  import { handler as dh, storeNames } from '@/utils/DataHandler.js';
+  import { handler as db, storeNames } from '@/utils/DataHandler.js';
 
-  dh.init();
+  db.init().then(() => {
+    for (let storeName in storeNames) {
+      db.sanitizeStore(storeNames[storeName]);
+    }
+
+  });
 </script>
 
 <template>

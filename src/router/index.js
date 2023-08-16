@@ -15,6 +15,28 @@ const routes = [
         path: 'settings',
         name: 'settings',
         component: () => import('@/views/Settings.vue'),
+        children: [
+          {
+            path: 'ingredients',
+            name: 'ingredients',
+            component: () => import('@/views/settings/ingredients.vue')
+          },
+          {
+            path: 'pills',
+            name: 'pills',
+            component: () => import('@/views/settings/pills.vue')
+          },
+          {
+            path: 'security',
+            name: 'security',
+            component: () => import('@/views/settings/security.vue')
+          },
+          {
+            path: 'export',
+            name: 'export',
+            component: () => import('@/views/settings/export.vue')
+          },
+        ]
       },
     ],
   },
