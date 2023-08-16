@@ -76,12 +76,15 @@ async function save() {
       delete entry.id;
       await indexedStore.update("pills", id, entry);
       feedback.value = { visible: true, type: 'success', title: 'Changes saved!', text: 'Your changes have been saved' };
+      emit('change');
     } else {
       await indexedStore.add("pills", entry);
       feedback.value = { visible: true, type: 'success', title: 'Pill added!', text: 'You can now select this Pill on the main screen' };
+      emit('change');
     }
     pill.value = { contents: [] };
   } catch (e) {
+    console.error(e)
     feedback.value = { visible: true, type: 'error', title: 'Something went wrong!', text: e.message };
   }
 }

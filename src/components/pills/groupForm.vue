@@ -46,10 +46,12 @@ async function save() {
       let id = Number(entry.id);
       delete entry.id;
       await indexedStore.update("pillGroups", id, entry);
-      feedback.value = { visible: true, type: 'success', title: 'Changes saved!', text: 'Your changes have been saved' };
+
+      emit('change');feedback.value = { visible: true, type: 'success', title: 'Changes saved!', text: 'Your changes have been saved' };
     } else {
       await indexedStore.add("pillGroups", entry);
       feedback.value = { visible: true, type: 'success', title: 'Group added!', text: 'You can now add Pills to this group' };
+      emit('change');
     }
     group.value = {};
   } catch (e) {
