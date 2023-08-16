@@ -71,6 +71,9 @@ async function save() {
 
   try {
     let entry = JSON.parse(JSON.stringify(pill.value));
+    if (entry.group == null) {
+      delete entry.group;
+    }
     if (entry.id) {
       let id = Number(entry.id);
       delete entry.id;
