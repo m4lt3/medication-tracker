@@ -43,6 +43,7 @@ async function exportData() {
 
 async function parseImportFile() {
   if (importFile.value.length != 1) {
+    importFileData.value = {};
     return;
   }
 
