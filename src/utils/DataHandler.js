@@ -67,8 +67,8 @@ function handleEncryption(item) {
   return item;
 }
 
-function handleDecryption(item) {
-  if (typeof(item) == 'string') {
+function handleDecryption(item, decrypt) {
+  if (typeof(item) == 'string' && decrypt) {
     try {
       let decrypted = CryptoJS.AES.decrypt(item, config.getPassword()).toString(CryptoJS.enc.Utf8);
       item = JSON.parse(decrypted);
@@ -134,7 +134,7 @@ handler.sanitizeStore = (storeName) =>  {
   });
 }
 
-handler.getAllFrom = (storeName) => {
+handler.getAllFrom = (storeName, decrypt = true) => {
   return new Promise((resolve, reject) => {
     if (! db.db.objectStoreNames.contains(storeName)) {
       reject(new Error(`Store with name '${storeName}' does not exist`));
@@ -155,7 +155,7 @@ handler.getAllFrom = (storeName) => {
     result.onsuccess = (e) => {
       const cursor = e.target.result
       if (cursor) {
-        let item = handleDecryption(cursor.value);
+        let item = handleDecryption(cursor.value, decrypt);
 
         results[cursor.key] = item;
         cursor.continue();
