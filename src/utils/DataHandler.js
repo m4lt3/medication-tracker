@@ -1,4 +1,6 @@
 import { validator } from '@/utils/DataValidator.js';
+import { handler as config } from '@/utils/ConfigHandler.js';
+import CryptoJS from 'crypto-js';
 
 let db = { db: {}, stores: {} };
 
@@ -56,6 +58,29 @@ function validate(storeName, item, checkDependencies = true) {
 
     resolve(true);
   });
+}
+
+function handleEncryption(item) {
+  if (config.read().encrypted) {
+    item = CryptoJS.AES.encrypt(JSON.stringify(item), config.getPassword()).toString();
+  }
+  return item;
+}
+
+function handleDecryption(item) {
+  if (typeof(item) == 'string') {
+    try {
+      let decrypted = CryptoJS.AES.decrypt(item, config.getPassword()).toString(CryptoJS.enc.Utf8);
+      item = JSON.parse(decrypted);
+    } catch (e) {
+      if (e instanceof SyntaxError) {
+        throw new Error(`Could not decrypt database. Is the password correct?`);
+      } else {
+        throw e;
+      }
+    }
+  }
+  return item;
 }
 
 handler.init = () => {
@@ -130,9 +155,9 @@ handler.getAllFrom = (storeName) => {
     result.onsuccess = (e) => {
       const cursor = e.target.result
       if (cursor) {
-        // TODO check for encryption
+        let item = handleDecryption(cursor.value);
 
-        results[cursor.key] = cursor.value;
+        results[cursor.key] = item;
         cursor.continue();
 
       } else {
@@ -159,12 +184,11 @@ handler.getById = (storeName, id) => {
     }
 
     request.onsuccess = (e) => {
-      // TODO check for encryption
-      if ( (e.target.result == undefined) || Object.keys(e.target.result).length == 0) {
+      if (e.target.result == undefined) {
         resolve(null);
         return;
       }
-      resolve(e.target.result);
+      resolve(handleDecryption(e.target.result));
     }
   });
 };
@@ -191,7 +215,7 @@ handler.query = (storeName, filters) => {
       const cursor = e.target.result
       if (cursor) {
 
-        // TODO check for encryption
+        let decryptedItem = handleDecryption(cursor.value);
 
         for (let filter in filters) {
           if (typeof filters[filter] == 'object') {
@@ -199,7 +223,7 @@ handler.query = (storeName, filters) => {
             if (filters[filter].$elemMatch != undefined) {
               // item is array and children should be matched
               let itemMatched = false;
-              for (let item of cursor.value[filter]) {
+              for (let item of decryptedItem[filter]) {
                 let thisItemMatches = true;
                 // checking filters for this element
                 for (let elemFilter in filters[filter].$elemMatch) {
@@ -223,14 +247,14 @@ handler.query = (storeName, filters) => {
             }
           } else {
             // compare primitive values
-            if (cursor.value[filter] != filters[filter]) {
+            if (decryptedItem[filter] != filters[filter]) {
               cursor.continue();
               return;
             }
           }
         }
 
-        results[cursor.key] = cursor.value;
+        results[cursor.key] = decryptedItem;
         cursor.continue();
 
       } else {
@@ -256,7 +280,7 @@ handler.insert = (storeName, item, id = null) => {
       return
     }
 
-    // TODO add encryption
+    item = handleEncryption(item);
 
     const transaction = db.db.transaction([storeName], "readwrite");
     const insertStore = transaction.objectStore(storeName);
@@ -285,7 +309,7 @@ handler.update = (storeName, id, newItem) => {
       return
     }
 
-    // TODO add ancryption
+    newItem = handleEncryption(newItem);
 
     const transaction = db.db.transaction([storeName], "readwrite");
     const insertStore = transaction.objectStore(storeName);
@@ -358,5 +382,18 @@ handler.delete = (storeName, id, retainReferences = true) => {
     }
   });
 }
+
+handler.encryptDB = () => {
+  return new Promise(async (resolve, reject) => {
+    // since encryption is already enabled in the settings, all new writes will be encrypted
+    // thus i just need to "update" every entry
+    for (let storeName in storeNames) {
+      let store = await handler.getAllFrom(storeNames[storeName]);
+      for (let itemId in store) {
+        await handler.update(storeNames[storeName], Number(itemId), store[itemId]);
+      }
+    }
+  });
+};
 
 export { handler, storeNames };
