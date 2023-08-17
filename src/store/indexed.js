@@ -67,5 +67,7 @@ export const useIndexedStore = defineStore('indexed', () => {
   const categories = ref({});
   const intakes = ref([]);
 
-  return { init, purge, add, remove, update, pills, pillGroups, categories, intakes };
+  const passwordRequired = ref(false);
+
+  return { init, purge, add, remove, update, pills, pillGroups, categories, intakes, passwordRequired };
 })
