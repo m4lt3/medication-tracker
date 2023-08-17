@@ -393,6 +393,32 @@ handler.encryptDB = () => {
         await handler.update(storeNames[storeName], Number(itemId), store[itemId]);
       }
     }
+
+    resolve();
+  });
+};
+
+handler.decryptDB = () => {
+  return new Promise(async (resolve, reject) => {
+    let tmpStores = {};
+
+    for (let storeName in storeNames) {
+      tmpStores[storeName] = await handler.getAllFrom(storeNames[storeName]);
+    }
+
+    let conf = config.read();
+    conf.encrypted = false;
+    delete conf.testphrase;
+    config.write(conf);
+    config.setPassword();
+
+    for (let storeName in tmpStores) {
+      for (let itemId in tmpStores[storeName]) {
+        await handler.update(storeNames[storeName], Number(itemId), tmpStores[storeName][itemId]);
+      }
+    }
+
+    resolve();
   });
 };
 

@@ -23,7 +23,11 @@ handler.getPassword = () => {
 }
 
 handler.setPassword = (password) => {
-  sessionStorage.setItem(import.meta.env.VITE_PASSWORD_KEY, password);
+  if (password) {
+    sessionStorage.setItem(import.meta.env.VITE_PASSWORD_KEY, password);
+  } else {
+    sessionStorage.removeItem(import.meta.env.VITE_PASSWORD_KEY);
+  }
 }
 
 export { handler };

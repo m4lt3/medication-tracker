@@ -3,6 +3,7 @@ import { onMounted, ref } from 'vue';
 
 import { handler as config } from '@/utils/ConfigHandler.js';
 import { handler as db } from '@/utils/DataHandler.js';
+import { useIndexedStore } from '@/store/indexed';
 
 import { AES } from 'crypto-js';
 
@@ -10,6 +11,8 @@ import { AES } from 'crypto-js';
 const conf = ref({});
 
 const password = ref({});
+
+const feedback = ref({ visible: false });
 
 const testphrase = import.meta.env.VITE_PASSWORD_TESTPHRASE;
 
@@ -62,6 +65,24 @@ async function encrypt() {
   config.setPassword(password.value.new);
 
   await db.encryptDB();
+  loadConfig();
+  feedback.value = { visible: true, type: 'success', title: 'Encryption enabled', text: 'Your data is even more safe now!' };
+}
+
+async function decrypt() {
+  await decryptionForm.value.validate();
+  if (!dcValid.value) {
+    return;
+  }
+
+  if (password.value.old != config.getPassword()) {
+    feedback.value = { visible: true, type: 'error', title: 'Password incorrect', text: 'Your current Password is required for confirmation!' };
+    return;
+  }
+
+  await db.decryptDB();
+  loadConfig();
+  feedback.value = { visible: true, type: 'success', title: 'Encryption disabled', text: 'No more annoying password prompts!' };
 }
 </script>
 <template>
@@ -91,11 +112,20 @@ async function encrypt() {
             v-model="password.confirm"
             :rules="[rules.required, rules.samePassword]"
           ></v-text-field>
-          <v-btn block prepend-icon="mdi-lock-outline" @click="encrypt">Lock</v-btn>
+          <v-btn block prepend-icon="mdi-lock-outline" @click="encrypt">Enable Encryption</v-btn>
         </v-form>
         <v-form ref="decryptionForm" v-model="dcValid" v-else>
+          <v-text-field
+            type="password"
+            label="Current Password"
+            v-model="password.old"
+            :rules="[rules.required]"
+          ></v-text-field>
+          <v-btn block prepend-icon="mdi-lock-open-outline" @click="decrypt">Disable Encryption</v-btn>
         </v-form>
       </v-card-text>
     </v-card>
+    <v-alert class="my-2" v-model="feedback.visible" v-bind="feedback" closable></v-alert>
+
   </v-container>
 </template>
