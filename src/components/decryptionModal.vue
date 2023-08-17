@@ -18,6 +18,7 @@ function unlock() {
   let unlocked = CryptoJS.AES.decrypt(props.testphrase, password.value).toString(CryptoJS.enc.Utf8);
   if (unlocked == testphrase) {
     emit('unlocked', password.value);
+    password.value = '';
   } else {
     feedback.value = { visible: true, type: 'error', title: 'Wrong password', text: 'The test to decrypt data did not succeed' };
   }
@@ -42,6 +43,7 @@ function unlock() {
         <v-text-field
           type="password"
           v-model="password"
+          @keyup.enter="unlock"
         ></v-text-field>
         <v-alert class="my-2" variant="tonal" v-bind="feedback" v-model="feedback.visible" closable></v-alert>
         <v-btn block @click="unlock" prepend-icon="mid-lock-open-outline">Unlock Database</v-btn>
