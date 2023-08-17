@@ -2,6 +2,8 @@
 import { useRoute } from 'vue-router';
 
 const route = useRoute();
+
+const emit = defineEmits(['openDecryptionModal']);
 </script>
 
 <template>
