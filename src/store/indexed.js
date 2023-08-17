@@ -20,13 +20,15 @@ export const useIndexedStore = defineStore('indexed', () => {
     }
   }
 
-  function purge() {
-    if (initiated) {
-      db.purge();
+  async function purge() {
+    if (!initiated) {
+      await db.init();
+    }
+    
+    await db.purge();
 
-      for (let storeName in storeNames) {
-        loadStore(storeName);
-      }
+    for (let storeName in storeNames) {
+      loadStore(storeName);
     }
   }
 

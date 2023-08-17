@@ -94,11 +94,11 @@ async function decrypt() {
   feedback.value = { visible: true, type: 'success', title: 'Encryption disabled', text: 'No more annoying password prompts!' };
 }
 
-function purge() {
-  indexedStore.purge();
-  indexedStore.init();
+async function purge() {
+  await indexedStore.purge();
   config.write();
   config.setPassword();
+  indexedStore.init();
 }
 </script>
 <template>
