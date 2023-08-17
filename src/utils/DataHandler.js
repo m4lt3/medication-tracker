@@ -423,16 +423,30 @@ handler.decryptDB = () => {
 };
 
 handler.purge = () => {
-  let stores = []
-  for (let storeName in storeNames) {
-    stores.push(storeNames[storeName]);
-  }
+  return new Promise((resolve, reject) => {
+    let stores = {};
+    for (let storeName in storeNames) {
+      stores[storeNames[storeName]] = false;
+    }
 
-  let purgeTransaction = db.db.transaction(stores, "readwrite");
+    let purgeTransaction = db.db.transaction(Object.keys(stores), "readwrite");
 
-  for (let storeName in storeNames) {
-    purgeTransaction.objectStore(storeNames[storeName]).clear();
-  }
+    for (let storeName in storeNames) {
+      purgeTransaction.objectStore(storeNames[storeName]).clear().onsuccess = (e) => {
+        if (e.target.result === undefined) {
+          stores[storeNames[storeName]] = true;
+
+          for (let store in stores) {
+            if (!stores[store]) {
+              return;
+            }
+          }
+
+          resolve();
+        }
+      }
+    }
+  });
 }
 
 export { handler, storeNames };
