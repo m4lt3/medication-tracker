@@ -43,7 +43,6 @@ async function importData() {
   await db.purge();
   for (let storeName in storeNames) {
     for (let itemId in importFileData.value.stores[storeName]) {
-      console.log("adding ", JSON.parse(JSON.stringify(importFileData.value.stores[storeName][itemId])))
       await indexedStore.add(storeName, JSON.parse(JSON.stringify(importFileData.value.stores[storeName][itemId])), Number(itemId));
     }
   }

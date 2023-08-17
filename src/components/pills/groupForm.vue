@@ -65,7 +65,6 @@ async function deleteGroup(id) {
     feedback.value = { visible: true, type: 'success', title: 'Group deleted!', text: '' };
     emit('change');
   } catch (e) {
-    console.log(e);
     feedback.value = { visible: true, type: 'error', title: 'Something went wrong!', text: e.message };
   }
 }

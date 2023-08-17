@@ -93,7 +93,6 @@ async function save() {
 }
 
 async function deletePill(id) {
-  console.log();
   try {
     await indexedStore.remove("pills", id);
     feedback.value = { visible: true, type: 'success', title: 'Pill deleted!', text: 'This pill will no longer be selectable until added again' };

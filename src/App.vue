@@ -14,7 +14,6 @@
   onMounted(() => {
     let cfg = config.read();
     if (cfg.encrypted) {
-      console.log('starting encrypted routine');
       testphrase.value = cfg.testphrase;
       showDecryptionModal.value = true;
       indexedStore.passwordRequired = true;
