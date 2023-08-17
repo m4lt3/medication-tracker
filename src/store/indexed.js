@@ -20,6 +20,16 @@ export const useIndexedStore = defineStore('indexed', () => {
     }
   }
 
+  function purge() {
+    if (initiated) {
+      db.purge();
+
+      for (let storeName in storeNames) {
+        loadStore(storeName);
+      }
+    }
+  }
+
   async function loadStore(storeName) {
     switch(storeName){
       case 'pills':
@@ -57,5 +67,5 @@ export const useIndexedStore = defineStore('indexed', () => {
   const categories = ref({});
   const intakes = ref([]);
 
-  return { init, add, remove, update, pills, pillGroups, categories, intakes };
+  return { init, purge, add, remove, update, pills, pillGroups, categories, intakes };
 })

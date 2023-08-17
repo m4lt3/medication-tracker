@@ -15,7 +15,12 @@ handler.read = () => {
 }
 
 handler.write = (config) => {
-  localStorage.setItem(import.meta.env.VITE_CONFIG_KEY, JSON.stringify(config));
+  if (config) {
+    localStorage.setItem(import.meta.env.VITE_CONFIG_KEY, JSON.stringify(config));
+  } else {
+    localStorage.removeItem(import.meta.env.VITE_CONFIG_KEY);
+  }
+
 }
 
 handler.getPassword = () => {

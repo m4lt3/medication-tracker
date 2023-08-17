@@ -422,4 +422,17 @@ handler.decryptDB = () => {
   });
 };
 
+handler.purge = () => {
+  let stores = []
+  for (let storeName in storeNames) {
+    stores.push(storeNames[storeName]);
+  }
+
+  let purgeTransaction = db.db.transaction(stores, "readwrite");
+
+  for (let storeName in storeNames) {
+    purgeTransaction.objectStore(storeNames[storeName]).clear();
+  }
+}
+
 export { handler, storeNames };

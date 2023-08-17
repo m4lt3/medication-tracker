@@ -7,7 +7,9 @@ import { useIndexedStore } from '@/store/indexed';
 
 import { AES } from 'crypto-js';
 
+import DeleteModal from '@/components/deleteModal.vue';
 
+const indexedStore = useIndexedStore();
 const conf = ref({});
 
 const password = ref({});
@@ -64,9 +66,16 @@ async function encrypt() {
 
   config.setPassword(password.value.new);
 
-  await db.encryptDB();
-  loadConfig();
-  feedback.value = { visible: true, type: 'success', title: 'Encryption enabled', text: 'Your data is even more safe now!' };
+  try {
+    await db.encryptDB();
+    loadConfig();
+    feedback.value = { visible: true, type: 'success', title: 'Encryption enabled', text: 'Your data is even more safe now!' };
+  } catch (e) {
+    config.write();
+    config.setPassword();
+    feedback.value = { visible: true, type: 'error', title: 'Something went wrong', text: e.message };
+  }
+
 }
 
 async function decrypt() {
@@ -84,6 +93,13 @@ async function decrypt() {
   loadConfig();
   feedback.value = { visible: true, type: 'success', title: 'Encryption disabled', text: 'No more annoying password prompts!' };
 }
+
+function purge() {
+  indexedStore.purge();
+  indexedStore.init();
+  config.write();
+  config.setPassword();
+}
 </script>
 <template>
   <v-container>
@@ -92,6 +108,7 @@ async function decrypt() {
     <p>Which pills you have taken is only stored as long as it is necessary to track a potential overdose. These time limits are checked at startup or can be refreshed manually.</p>
     <p>All your Data is stored locally and can only be accessed by accessing your device. <b>If you are in private browsing mode, your data will be erased after you close the browser</b></p>
     <p>Additionally, you can protect your information using a password. It will e encrypted before saving it to disk and we only store it in your browser while you use the app (session storage). If you forget your password, your information cannot be recovered.</p>
+    <p>You can also purge all your saved data</p>
     <v-card
       class="my-3"
     >
@@ -126,6 +143,7 @@ async function decrypt() {
       </v-card-text>
     </v-card>
     <v-alert class="my-2" v-model="feedback.visible" v-bind="feedback" closable></v-alert>
+    <DeleteModal style="width: 100%" text="Purge all data" @delete="purge"></DeleteModal>
 
   </v-container>
 </template>
