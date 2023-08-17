@@ -99,6 +99,8 @@ async function purge() {
   config.write();
   config.setPassword();
   indexedStore.init();
+  loadConfig();
+  indexedStore.passwordRequired = false;
 }
 </script>
 <template>
