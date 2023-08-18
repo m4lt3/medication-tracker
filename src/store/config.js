@@ -7,7 +7,6 @@ export const useConfigStore = defineStore('config', () => {
   const password = ref(configHandler.getPassword());
 
   watchEffect(() => {
-    console.log(config.value);
     configHandler.write(config.value);
   });
 
