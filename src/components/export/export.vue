@@ -32,6 +32,7 @@ async function exportData() {
       Export
     </template>
     <v-card-text>
+      <p>Keep in Mind that only your Data will be exported (encrypted or unencrypted). Settings such as intake history will not be transferred</p>
       <v-btn block color="primary" prepend-icon="mdi-arrow-up" @click="exportData">Export</v-btn>
     </v-card-text>
   </v-card>
