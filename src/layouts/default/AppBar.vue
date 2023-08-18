@@ -3,9 +3,13 @@
   import { RouterLink, useRoute } from 'vue-router';
 
   import { useIndexedStore } from '@/store/indexed';
+  import { useConfigStore } from '@/store/config';
 
   const emit = defineEmits(['openDecryptionModal']);
+
   const indexedStore = useIndexedStore();
+  const configStore = useConfigStore();
+
   const route = useRoute();
 
   const snackbar = ref(false);
@@ -29,6 +33,12 @@
         style="margin-right: 1rem"
         @click="indexedStore.markOrDeleteExpiredIntakes(); snackbar = true"
       ></v-icon>
+      <router-link v-if="configStore.config.intakeHistory && route.name != 'history'" :to="{ name: 'history' }" style="margin-right: 1rem">
+        <v-icon icon="mdi-history"></v-icon>
+      </router-link>
+      <router-link v-if="route.name != 'home'" :to="{ name: 'home' }" style="margin-right: 1rem">
+        <v-icon icon="mdi-home-analytics"></v-icon>
+      </router-link>
       <router-link :to="{ name: 'settings' }" style="margin-right: 1rem; color: grey">
         <v-icon icon="mdi-cog-outline"></v-icon>
       </router-link>

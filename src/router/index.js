@@ -12,6 +12,11 @@ const routes = [
         component: () => import('@/views/Home.vue'),
       },
       {
+        path: 'history',
+        name: 'history',
+        component: () => import('@/views/History.vue'),
+      },
+      {
         path: 'settings',
         name: 'settings',
         component: () => import('@/views/Settings.vue'),
