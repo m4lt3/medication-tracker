@@ -3,6 +3,7 @@ import { useIndexedStore } from '@/store/indexed';
 
 import LimitBar from '@/components/home/limitBar.vue';
 import IntakeForm from '@/components/home/intakeForm.vue';
+import IntakeVisualizer from '@/components/home/intakeVisualizer.vue';
 
 const indexedStore = useIndexedStore();
 </script>
@@ -18,5 +19,6 @@ const indexedStore = useIndexedStore();
     ></LimitBar>
     <h1 class="text-h2">Intakes</h1>
     <IntakeForm></IntakeForm>
+    <IntakeVisualizer></IntakeVisualizer>
   </v-container>
 </template>
