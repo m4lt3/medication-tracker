@@ -6,7 +6,7 @@ const properties = defineProps({
   text: String,
   variant: {
     type: String,
-    default: 'default'
+    default: 'elevated'
   }
 });
 const emit = defineEmits(['delete']);

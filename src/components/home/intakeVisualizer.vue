@@ -42,7 +42,7 @@ function removeIntake(id) {
           <p class="text-overline">
             {{ indexedStore.pills[intake.pill].name }}
             <v-icon icon="mdi-circle-half-full" v-if="intake.half"></v-icon>
-            <DeleteModal @delete="removeIntake(intake.id)"></DeleteModal>
+            <DeleteModal @delete="removeIntake(intake.id)" variant="plain"></DeleteModal>
           </p>
           <v-list>
             <v-list-item v-for="ingredient in indexedStore.pills[intake.pill].contents" :key="intake.id + '-' + ingredient.ingredient">
