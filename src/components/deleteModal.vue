@@ -1,7 +1,14 @@
 <script setup>
 import { ref } from 'vue';
 
-const properties = defineProps([ 'style', 'text' ]);
+const properties = defineProps({
+  style: String,
+  text: String,
+  variant: {
+    type: String,
+    default: 'default'
+  }
+});
 const emit = defineEmits(['delete']);
 
 const show = ref(false);
@@ -12,7 +19,7 @@ const show = ref(false);
     v-model="show"
   >
     <template #activator="{ props }">
-      <v-btn color="error" v-bind="props" :style="properties.style" ><v-icon icon="mdi-delete-outline"></v-icon>{{ properties.text }}</v-btn>
+      <v-btn color="error" v-bind="props" :style="properties.style" :variant="properties.variant"><v-icon icon="mdi-delete-outline"></v-icon>{{ properties.text }}</v-btn>
     </template>
     <v-card
       width="auto"
