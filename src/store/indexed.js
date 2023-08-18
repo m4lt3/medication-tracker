@@ -83,7 +83,8 @@ export const useIndexedStore = defineStore('indexed', () => {
       if (expired.length == pills.value[intakes.value[itemId].pill].contents.length) {
         // If all contents have expired, mark intake for deletion
         toDelete.push(Number(itemId));
-      } else if (expired.length > 0) {
+      }
+      if (expired.length > 0) {
         // if any contents have expired, save it to the db
         let newIntake = JSON.parse(JSON.stringify(intakes.value[itemId]));
         delete newIntake.id;
