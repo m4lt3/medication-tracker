@@ -1,17 +1,13 @@
 import { defineStore } from 'pinia';
-import { ref, onMounted, watchEffect } from 'vue';
+import { ref, watchEffect } from 'vue';
 import { handler as configHandler } from '@/utils/ConfigHandler.js';
 
 export const useConfigStore = defineStore('config', () => {
-  const config = ref({});
-  const password = ref('');
-
-  onMounted(() => {
-    config.value = configHandler.read();
-    password.value = configHandler.getPassword();
-  });
+  const config = ref(configHandler.read());
+  const password = ref(configHandler.getPassword());
 
   watchEffect(() => {
+    console.log(config.value);
     configHandler.write(config.value);
   });
 
