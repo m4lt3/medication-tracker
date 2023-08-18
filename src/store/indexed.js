@@ -13,7 +13,7 @@ export const useIndexedStore = defineStore('indexed', () => {
       }
 
       for (let storeName in storeNames) {
-        loadStore(storeName);
+        await loadStore(storeName);
       }
 
       initiated = true;
@@ -24,7 +24,7 @@ export const useIndexedStore = defineStore('indexed', () => {
     if (!initiated) {
       await db.init();
     }
-    
+
     await db.purge();
 
     for (let storeName in storeNames) {
@@ -51,17 +51,54 @@ export const useIndexedStore = defineStore('indexed', () => {
 
   async function add (store, item, id = null) {
     await db.insert(storeNames[store], item, id);
-    loadStore(store)
+    await loadStore(store)
   }
 
   async function remove (store, id) {
     await db.delete(storeNames[store], id);
-    loadStore(store)
+    await loadStore(store)
   }
 
   async function update (store, id, item) {
     await db.update(storeNames[store], id, item);
-    loadStore(store)
+    await loadStore(store)
+  }
+
+  async function removeExpiredIntakes() {
+    let toDelete = [];
+    let now = Date.now();
+
+    for (let itemId in intakes.value) {
+      let expired = [];
+
+      // checking each ingredient for expiry
+      for (let ingredient of pills.value[intakes.value[itemId].pill].contents) {
+        if (intakes.value[itemId].takenAt <= now - categories.value[ingredient.ingredient].expires) {
+          expired.push(Number(ingredient.ingredient));
+        }
+      }
+
+
+      if (expired.length == pills.value[intakes.value[itemId].pill].contents.length) {
+        // If all contents have expired, mark intake for deletion
+        toDelete.push(Number(itemId));
+      } else if (expired.length > 0) {
+        // if any contents have expired, save it to the db
+        let newIntake = JSON.parse(JSON.stringify(intakes.value[itemId]));
+        delete newIntake.id;
+        newIntake.expired = expired;
+
+        await db.update(storeNames["intakes"], Number(itemId), newIntake);
+      }
+    }
+
+
+    // deleting completely expired intakes
+    for (let del of toDelete) {
+      await db.delete(storeNames["intakes"], del);
+    }
+
+    await loadStore("intakes");
   }
 
   const pills = ref({});
@@ -71,5 +108,10 @@ export const useIndexedStore = defineStore('indexed', () => {
 
   const passwordRequired = ref(false);
 
-  return { init, purge, add, remove, update, pills, pillGroups, categories, intakes, passwordRequired };
+  return {
+    init, purge,
+    add, remove, update, removeExpiredIntakes,
+    pills, pillGroups, categories, intakes,
+    passwordRequired
+  };
 })

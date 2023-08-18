@@ -48,7 +48,11 @@ const schemas = {
     properties: {
       pill: { type: "number" },
       takenAt: { type: "number" },
-      half: { type: "boolean" }
+      half: { type: "boolean" },
+      expired: {
+        type: "array",
+        items: { type: "number" }
+      }
     },
     required: [ "pill", "takenAt" ],
     additionalProperties: false

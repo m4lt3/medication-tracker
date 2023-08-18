@@ -11,22 +11,25 @@
   const showDecryptionModal = ref(false);
   const testphrase = ref('');
 
-  onMounted(() => {
+  onMounted(async () => {
     let cfg = config.read();
     if (cfg.encrypted) {
       testphrase.value = cfg.testphrase;
       showDecryptionModal.value = true;
       indexedStore.passwordRequired = true;
     } else {
-      indexedStore.init();
+      await indexedStore.init();
+      await indexedStore.removeExpiredIntakes();
     }
   });
 
-  function unlock(password) {
+  async function unlock(password) {
     config.setPassword(password);
     indexedStore.passwordRequired = false;
-    indexedStore.init();
     showDecryptionModal.value = false;
+
+    await indexedStore.init();
+    await indexedStore.removeExpiredIntakes();
   }
 </script>
 
