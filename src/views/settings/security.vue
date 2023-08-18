@@ -1,16 +1,17 @@
 <script setup>
-import { onMounted, ref } from 'vue';
+import { ref } from 'vue';
 
-import { handler as config } from '@/utils/ConfigHandler.js';
 import { handler as db } from '@/utils/DataHandler.js';
+
 import { useIndexedStore } from '@/store/indexed';
+import { useConfigStore } from '@/store/config';
 
 import { AES } from 'crypto-js';
 
 import DeleteModal from '@/components/deleteModal.vue';
 
 const indexedStore = useIndexedStore();
-const conf = ref({});
+const configStore = useConfigStore();
 
 const password = ref({});
 
@@ -44,14 +45,6 @@ const rules = {
   }
 };
 
-onMounted(() => {
-  loadConfig();
-});
-
-function loadConfig() {
-  conf.value = config.read();
-}
-
 async function encrypt() {
   await encryptionForm.value.validate();
   if (!ecValid.value) {
@@ -59,19 +52,20 @@ async function encrypt() {
   }
 
   // updating config and storing Password
-  conf.value.encrypted = true;
-  conf.value.testphrase = AES.encrypt(testphrase, password.value.new).toString();
-  config.write(conf.value);
+  configStore.config.encrypted = true;
+  configStore.config.testphrase = AES.encrypt(testphrase, password.value.new).toString();
 
-  config.setPassword(password.value.new);
+  configStore.password = password.value.new;
 
   try {
     await db.encryptDB();
-    loadConfig();
     feedback.value = { visible: true, type: 'success', title: 'Encryption enabled', text: 'Your data is even more safe now!' };
   } catch (e) {
-    config.write();
-    config.setPassword();
+    configStore.config.encrypted = false;
+    configStore.config.testPhrase = undefined;
+
+    configStore.password = null;
+
     feedback.value = { visible: true, type: 'error', title: 'Something went wrong', text: e.message };
   }
 
@@ -83,27 +77,28 @@ async function decrypt() {
     return;
   }
 
-  if (password.value.old != config.getPassword()) {
+  if (password.value.old != configStore.password) {
     feedback.value = { visible: true, type: 'error', title: 'Password incorrect', text: 'Your current Password is required for confirmation!' };
     return;
   }
 
   await db.decryptDB();
-  loadConfig();
+
+  configStore.config.encrypted = false;
+  configStore.config.testphrase = undefined;
+  configStore.password = null;
+
   feedback.value = { visible: true, type: 'success', title: 'Encryption disabled', text: 'No more annoying password prompts!' };
 }
 
 async function purge() {
   await indexedStore.purge();
-  config.write();
-  config.setPassword();
-  indexedStore.init();
-  loadConfig();
-  indexedStore.passwordRequired = false;
-}
 
-function changeHistory() {
-  config.write(conf.value);
+  configStore.config = {};
+  configStore.password = null;
+
+  indexedStore.init();
+  indexedStore.passwordRequired = false;
 }
 </script>
 <template>
@@ -118,10 +113,10 @@ function changeHistory() {
       class="my-3"
     >
       <v-card-item>
-        <v-card-title>Your data is currently{{ conf.encrypted ? ' ' : ' not ' }}encrypted</v-card-title>
+        <v-card-title>Your data is currently{{ configStore.config.encrypted ? ' ' : ' not ' }}encrypted</v-card-title>
       </v-card-item>
       <v-card-text>
-        <v-form ref="encryptionForm" v-model="ecValid" v-if="!conf.encrypted">
+        <v-form ref="encryptionForm" v-model="ecValid" v-if="!configStore.config.encrypted">
           <v-text-field
             type="password"
             label="New Password"
@@ -154,9 +149,8 @@ function changeHistory() {
         </v-card-title>
         <v-card-text>
           <v-switch
-            v-model="conf.intakeHistory"
+            v-model="configStore.config.intakeHistory"
             label="Keep my intakes saved beyond their expiration"
-            @update:modelValue="changeHistory"
           ></v-switch>
         </v-card-text>
       </v-card-item>
