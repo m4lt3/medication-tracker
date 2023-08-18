@@ -91,8 +91,8 @@ async function takePill() {
       </v-col>
       <v-col cols="12" md="4" class="d-flex justify-center">
         <v-btn-toggle v-model="pill.half" mandatory :rules="[rules.required]">
-          <v-btn icon="mdi-pill" :value="false"></v-btn>
-          <v-btn icon="mdi-pill-off" :value="true"></v-btn>
+          <v-btn icon="mdi-circle" :value="false"></v-btn>
+          <v-btn icon="mdi-circle-half-full" :value="true"></v-btn>
         </v-btn-toggle>
       </v-col>
       <v-col cols="12" md="4">
