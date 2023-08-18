@@ -27,7 +27,7 @@
       <v-icon
         icon="mdi-refresh"
         style="margin-right: 1rem"
-        @click="indexedStore.removeExpiredIntakes(); snackbar = true"
+        @click="indexedStore.markOrDeleteExpiredIntakes(); snackbar = true"
       ></v-icon>
       <router-link :to="{ name: 'settings' }" style="margin-right: 1rem; color: grey">
         <v-icon icon="mdi-cog-outline"></v-icon>

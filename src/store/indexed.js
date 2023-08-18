@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia';
 import { ref, watch } from 'vue';
 import { handler as db, storeNames } from '@/utils/DataHandler.js';
+import { handler as config } from '@/utils/ConfigHandler.js';
 
 export const useIndexedStore = defineStore('indexed', () => {
   let initiated = false;
@@ -64,7 +65,7 @@ export const useIndexedStore = defineStore('indexed', () => {
     await loadStore(store)
   }
 
-  async function removeExpiredIntakes() {
+  async function markOrDeleteExpiredIntakes() {
     let toDelete = [];
     let now = Date.now();
 
@@ -93,9 +94,11 @@ export const useIndexedStore = defineStore('indexed', () => {
     }
 
 
-    // deleting completely expired intakes
-    for (let del of toDelete) {
-      await db.delete(storeNames["intakes"], del);
+    if (!config.read().intakeHistory) {
+      // deleting completely expired intakes
+      for (let del of toDelete) {
+        await db.delete(storeNames["intakes"], del);
+      }
     }
 
     await loadStore("intakes");
@@ -110,7 +113,7 @@ export const useIndexedStore = defineStore('indexed', () => {
 
   return {
     init, purge,
-    add, remove, update, removeExpiredIntakes,
+    add, remove, update, markOrDeleteExpiredIntakes,
     pills, pillGroups, categories, intakes,
     passwordRequired
   };

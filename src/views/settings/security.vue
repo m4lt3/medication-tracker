@@ -59,10 +59,9 @@ async function encrypt() {
   }
 
   // updating config and storing Password
-  config.write({
-    encrypted: true,
-    testphrase: AES.encrypt(testphrase, password.value.new).toString()
-  });
+  conf.value.encrypted = true;
+  conf.value.testphrase = AES.encrypt(testphrase, password.value.new).toString();
+  config.write(conf.value);
 
   config.setPassword(password.value.new);
 
@@ -101,6 +100,10 @@ async function purge() {
   indexedStore.init();
   loadConfig();
   indexedStore.passwordRequired = false;
+}
+
+function changeHistory() {
+  config.write(conf.value);
 }
 </script>
 <template>
@@ -143,6 +146,20 @@ async function purge() {
           <v-btn block prepend-icon="mdi-lock-open-outline" @click="decrypt">Disable Encryption</v-btn>
         </v-form>
       </v-card-text>
+    </v-card>
+    <v-card class="my-3">
+      <v-card-item>
+        <v-card-title>
+          Intake saving settings
+        </v-card-title>
+        <v-card-text>
+          <v-switch
+            v-model="conf.intakeHistory"
+            label="Keep my intakes saved beyond their expiration"
+            @update:modelValue="changeHistory"
+          ></v-switch>
+        </v-card-text>
+      </v-card-item>
     </v-card>
     <v-alert class="my-2" v-model="feedback.visible" v-bind="feedback" closable></v-alert>
     <DeleteModal style="width: 100%" text="Purge all data" @delete="purge"></DeleteModal>

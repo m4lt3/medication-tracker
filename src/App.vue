@@ -19,7 +19,7 @@
       indexedStore.passwordRequired = true;
     } else {
       await indexedStore.init();
-      await indexedStore.removeExpiredIntakes();
+      await indexedStore.markOrDeleteExpiredIntakes();
     }
   });
 
@@ -29,7 +29,7 @@
     showDecryptionModal.value = false;
 
     await indexedStore.init();
-    await indexedStore.removeExpiredIntakes();
+    await indexedStore.markOrDeleteExpiredIntakes();
   }
 </script>
 
