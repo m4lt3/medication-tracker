@@ -45,10 +45,12 @@ function removeIntake(id) {
             <DeleteModal @delete="removeIntake(intake.id)" variant="plain"></DeleteModal>
           </p>
           <v-list>
-            <v-list-item v-for="ingredient in indexedStore.pills[intake.pill].contents" :key="intake.id + '-' + ingredient.ingredient">
-              <v-list-item-title>{{ intake.half ? ingredient.amount / 2 : ingredient.amount }} mg</v-list-item-title>
-              <v-list-item-subtitle>{{ indexedStore.categories[ingredient.ingredient].name }}</v-list-item-subtitle>
-            </v-list-item>
+            <div v-for="ingredient in indexedStore.pills[intake.pill].contents" :key="intake.id + '-' + ingredient.ingredient">
+              <v-list-item v-if="!intake.expired || !intake.expired.includes(ingredient.ingredient)">
+                <v-list-item-title>{{ intake.half ? ingredient.amount / 2 : ingredient.amount }} mg</v-list-item-title>
+                <v-list-item-subtitle>{{ indexedStore.categories[ingredient.ingredient].name }}</v-list-item-subtitle>
+              </v-list-item>
+            </div>
           </v-list>
         </v-card-text>
       </v-card>

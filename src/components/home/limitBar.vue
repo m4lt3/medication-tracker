@@ -22,7 +22,19 @@ const progressColor = computed(() => {
 const relevantIntakes = computed(() => {
   let intakes = [];
   for (let itemId in indexedStore.intakes) {
-    if (!indexedStore.pills[indexedStore.intakes[itemId].pill].contents.some((elem) => { return elem.ingredient == props.ingredientId })) {
+    let containsRelevantIngredient = indexedStore.pills[indexedStore.intakes[itemId].pill].contents.some((elem) => {
+      if (elem.ingredient == props.ingredientId) {
+        if (indexedStore.intakes[itemId].expired && indexedStore.intakes[itemId].expired.includes(elem.ingredient)) {
+          return false;
+        } else {
+          return true;
+        }
+      } else {
+        return false;
+      }
+    });
+
+    if (!containsRelevantIngredient) {
       continue;
     }
 
