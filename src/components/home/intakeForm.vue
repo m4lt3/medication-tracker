@@ -2,6 +2,8 @@
 import { ref, computed } from 'vue';
 import { useIndexedStore } from '@/store/indexed';
 
+import TimeModal from '@/components/home/timeModal.vue';
+
 const emit = defineEmits(['change']);
 const indexedStore = useIndexedStore();
 
@@ -64,17 +66,25 @@ async function takePill() {
     return
   }
 
-  pill.value.takenAt = Date.now();
+  if (!pill.value.takenAt) {
+    pill.value.takenAt = Date.now();
+  }
+
 
   await indexedStore.add('intakes', JSON.parse(JSON.stringify(pill.value)));
 
   form.value.reset();
+  pill.value.takenAt = undefined;
+}
+
+function setTime(time) {
+  pill.value.takenAt = time;
 }
 </script>
 <template>
   <v-form ref="form" v-model="valid">
     <v-row>
-      <v-col cols="12" md="4">
+      <v-col cols="12" md="3">
         <v-select
           v-model="pill.pill"
           :items="pillSelect"
@@ -89,13 +99,17 @@ async function takePill() {
               </template>
         </v-select>
       </v-col>
-      <v-col cols="12" md="4" class="d-flex justify-center">
+      <v-col cols="12" md="3" class="d-flex justify-center">
         <v-btn-toggle v-model="pill.half" mandatory :rules="[rules.required]">
           <v-btn icon="mdi-circle" :value="false"></v-btn>
           <v-btn icon="mdi-circle-half-full" :value="true"></v-btn>
         </v-btn-toggle>
       </v-col>
-      <v-col cols="12" md="4">
+      <v-col cols="12" md="3" class="d-flex justify-center align-baseline">
+        <p class="me-2">{{ pill.takenAt ? (new Date(pill.takenAt)).toLocaleString() : 'Now' }}</p>
+        <TimeModal @timeSelected="setTime"></TimeModal>
+      </v-col>
+      <v-col cols="12" md="3">
         <v-btn color="primary" block @click="takePill"><v-icon icon="mdi-plus"></v-icon></v-btn>
       </v-col>
     </v-row>
