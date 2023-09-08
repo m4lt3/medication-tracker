@@ -284,7 +284,12 @@ handler.insert = (storeName, item, id = null) => {
 
     const transaction = db.db.transaction([storeName], "readwrite");
     const insertStore = transaction.objectStore(storeName);
-    const request = insertStore.add(item, id);
+    let request;
+    if (id) {
+      request = insertStore.add(item, id);
+    } else {
+      request = insertStore.add(item);
+    }
     request.onsuccess = (e) => {
       resolve(e.target.result);
     };
