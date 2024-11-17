@@ -21,6 +21,7 @@ const emit = defineEmits(['openDecryptionModal']);
       <v-list-item prepend-icon="mdi-pill-multiple" title="Manage Pills" :to="{ name: 'pills' }"></v-list-item>
       <v-list-item prepend-icon="mdi-lock-outline" title="Security" :to="{ name: 'security' }"></v-list-item>
       <v-list-item prepend-icon="mdi-swap-vertical-bold" title="Import and Export" :to="{ name: 'export' }"></v-list-item>
+      <v-list-item prepend-icon="mdi-translate" title="Language" :to="{ name: 'language'}"></v-list-item>
     </v-list>
   </v-navigation-drawer>
   <v-container style="height: 100%">

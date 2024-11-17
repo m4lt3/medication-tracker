@@ -41,6 +41,11 @@ const routes = [
             name: 'export',
             component: () => import('@/views/settings/export.vue')
           },
+          {
+            path: 'language',
+            name: 'language',
+            component: () => import('@/views/settings/language.vue')
+          },
         ]
       },
     ],
