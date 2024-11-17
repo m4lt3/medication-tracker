@@ -1,1 +1,143 @@
-{}
+{
+  "history": {
+    "title": "Einnahmeverlauf"
+  },
+  "home": {
+    "current_values": "Aktuelle Werte",
+    "intakes": "Einnahmen",
+    "now": "Jetzte",
+    "of": "von",
+    "at": "um",
+    "time_modal": {
+      "title": "Andere Zeit auswählen",
+      "not_clicking": "Wenn du nicht auf 'Zeit wählen' klickst, wird automatisch davon ausgegangen, dass die Einnahme jetzt ist",
+      "set_time": "Zeit wählen"
+    }
+  },
+  "settings": {
+    "language": {
+      "title": "Sprache"
+    },
+    "pills": {
+      "title": "Tabletten und Tablettengruppen",
+      "p1": "Hier kannst du die Tablettenv verwalten, die du normalerweise nimmst und im Auswahlmenü haben möchtest.",
+      "p2": "Du kannst Tablettengruppen nutzen, um im Dropdown einen besseren Überblick zu bekommen. Abgesehen davon haben sie keine Funktion.",
+      "p3": "Tabletten können zu einer Gruppe gehören und können ein oder mehrere Zutaten enthalten. Bei der Auswahl kannst du dann auch zwischen einer ganzen und einer halben Tablette unterscheiden.",
+      "changes_saved_title": "Änderungen Gespeichert!",
+      "changes_saved_text": "Deine Änderungen wurden gespeichert",
+      "save_failed_title": "Etwas ist schiefgelaufen!",
+      "group_added_title": "Gruppe hinzugefügt!",
+      "group_added_text": "Du kannst dieser Gruppe nun Tabletten zuordnen",
+      "group_deleted_title": "Gruppe gelöscht",
+      "add_edit_group": "Gruppe hinzufügen oder bearbeiten",
+      "no_ingredients_title": "Deine Tablette hat keine Zutaten!",
+      "no_ingredients_text": "Bitte füge mindestens eine Zutat hinzu, um deine Tablette zu speichern",
+      "pill_added_title": "Tablette hinzugefügt!",
+      "pill_added_text": "Du kannst sie ab jetzt auf dem Hauptbildschirm auswählen",
+      "pill_deleted_title": "Tablette gelöscht!",
+      "pill_deleted_text": "Diese Tablette steht nicht mehr auf dem Hauptbildschirm zur Auswahl.",
+      "add_edit_pill": "Tablette hinzufügen oder bearbeiten",
+      "ingredient": "Zutat",
+      "amount": "Menge",
+      "groups": "Talettengruppe",
+      "name": "Name",
+      "pills": "Tabletten",
+      "group": "Gruppe",
+      "ingredients": "Zutaten"
+    },
+    "ingredients": {
+      "changes_saved_title": "Änderungen Gespeichert!",
+      "changes_saved_text": "Deine Änderungen wurden gespeichert",
+      "ingredient_added_title": "Zutat hinzugefügt",
+      "ingredient_added_text": "Die Zutat wird ab jetzt überwacht. Du kannst nun in Tabletten auf sie verweisen.",
+      "ingredient_deleted_success_title": "Erfolg!",
+      "ingredient_deleted_success_text": "Zutat gelöscht",
+      "ingredient_deleted_fail_title": "Da ist etwas schiefgelaufen",
+      "title": "Zutaten",
+      "p1": "Zutaten sind der Hauptgrund dieser Anwendung. Hier kannst du eingeben, welche Zutaten überwacht werden sollen, wie viel du davon maximal intus haben solltest und wie Lange die zutaten in deinem Körper bleiben.",
+      "p2": "Zum Beispiel, eine Person mit einem Körpergewicht von 75kg sollte innerhalb von 6 Stunden nicht mehr als 800mg Ibuprofen zu sich nehmen:",
+      "p3": "Sprich immer mit einem Profi über diese Werte, da persönlche Grenzwerte und Zeitrahmen von vielen verschiedenen Faktoren abhängig sind.",
+      "name": "Name",
+      "limit": "Grenzwert",
+      "in_body": "in meinem Körper für",
+      "6_hour_example": "6 Stunden",
+      "edit_add": "Zutat hinzufügen oder bearbeiten",
+      "minutes": "Minute(n)",
+      "hours": "Stunde(n)",
+      "days": "Tag(e)",
+      "save_action": "Speichern",
+      "period": "Zeitraum"
+    },
+    "export": {
+      "title": "Import und Export",
+      "p1": "Falls du deine Daten auf ein anderes Gerät übertragen möchtest oder gerne ein Backup machen/wiederherstellen willst, kannst du das hier tun.",
+      "p2": "Falls deine Lokalen Daten verschlüsselt sind, wird dein Backup auch verschlüsselt sein, ansonsten ist es normaler Text. Beim Importieren einer verschlüsselten Datei musst du das Passwort angeben, mit dem sie verschlüsselt wurde. Nach diesem Import werden aber die aktuellen Verschlüsselungseinstellungen deines Geräts verwendet.",
+      "p3": "Manuelles verändern der exportierten Datei kann zu permanetem Datenverlust führen.",
+      "export": {
+        "title": "Export",
+        "p1": "Bedenke, dass nur deine Daten (verschlüsselt oder unverschlüsselt) exportiert werden. Deine sonstigen Einstellungen (z.B. 'Einnahmeverlauf behalten') werden nicht übernommen",
+        "export_action": "Exportieren"
+      },
+      "import": {
+        "title": "Import",
+        "p1": "Bedenke, dass das Importieren all deine bisherigen Daten überschreibt (abgesehen von deinen Sicherheitseinstellungen)",
+        "import_action": "Importieren"
+      }
+    },
+    "security": {
+      "encryption_enabled_title": "Verschlüsselung aktiviert",
+      "encryption_enabled_text": "Deine Daten sind jetzt noch sicherer!",
+      "error": "Etwas ist schiefgelaufen",
+      "password_incorrect_title": "Passwort falsch",
+      "password_incorrect_text": "Dein aktuelles Passwort wird zur Bestätigung benötigt",
+      "encryption_disabled_title": "Verschlüsselung deaktiviert",
+      "encryption_disabled_text": "keine nervigen Passwort-Aufforderungen mehr!",
+      "title": "Sicherheit",
+      "p1": "Diese Anwendung speichert potenziell sensible Informationen über deine Medikamenteneinnahme. Aus diesem Grund ist Sicherheit sehr wichtig!",
+      "p2": "Welche Tabletten du genommen hast wird nur so lange gespeichert, wie nötig um eine potenzielle Überdosierung zu erkennen. Diese Zeitrahmen werden beim Start der Anwendung überprüft oder wenn du es über das Pfeil-Symbol auf dem Hauptbildschirm selbst auslöst.",
+      "p3": "Alle deine Daten werden lokal gespeichert und können nur ausgelesen werden, wenn Zugriff zu deinem Gerät besteht.",
+      "p3b": "Falls du im privaten Browsing-Modus bist, werden all deine Daten gelöscht, wenn du das Fenster schließt.",
+      "p4": "Zusätzlich kannst du deine Daten durch ein Passwort schützen. Es wird entschlüsselt gespeichert und nur dann Lesbar vorgehalten, während die App läuft (Session storage). Falls du dein Passwort vergisst, können deine Informationen nicht wiederhergestellt werden.",
+      "p5": "Du kannst auch alle deine Daten löschen.",
+      "data_is": "Deine Daten sind aktuell",
+      "not": "nicht",
+      "ecrypted": "verschlüsselt",
+      "new_pw": "Neues Passwort",
+      "confirm_pw": "Passwort bestätigen",
+      "enable_encryption": "Verschlüsselung Aktivieren",
+      "current_pw": "Aktuelles Passwort",
+      "disable_encryption": "Verschlüsselung Deaktivieren",
+      "intake_history": "Speichereinstellungen Einnahmeverlauf",
+      "save_beyond": "Meine Einnahmen auch über die notwendige Frist hinaus speichern",
+      "purge": "Alle Daten löschen"
+    },
+    "navbar": {
+      "ingredients": "Überwachte Zutaten verwalten",
+      "pills": "Tabletten verwalten",
+      "security": "Sicherheit",
+      "import_export": "Import und Export",
+      "language": "Sprache"
+    },
+    "select": "Bitte Wähle eine Option aus der Seitenleiste",
+    "title": "Einstellungen"
+  },
+  "modals": {
+    "decrypt": {
+      "wrong_password_title": "Falsches Passwort",
+      "wrong_password_text": "TDer Test, um die Daten zu Entschlüsseln, ist Fehlgeschlagen",
+      "title": "Passwort eingeben",
+      "unlock": "Datenbank entsperren"
+    },
+    "delete": {
+      "title": "Bist du sicher?",
+      "p1": "Gelöschte Daten können nicht wiederhergestellt werden",
+      "p2": "Elemente, die sich auf diese Information beziehen müssen zuerst gelöscht werden.",
+      "yes":"Ja, löschen",
+      "nvm": "Doch nicht"
+    }
+  },
+  "forms": {
+    "required": "Benötigt",
+    "save_action": "Speichern"
+  }
+}
