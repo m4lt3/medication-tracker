@@ -9,21 +9,20 @@ const indexedStore = useIndexedStore();
 </script>
 <template>
   <v-container>
-    <h1 class="text-h2">Current values</h1>
+    <h1 class="text-h2">{{ $t('home.current_values') }}</h1>
     <v-row
     v-for="(ingredient, id) in indexedStore.categories"
     :key="id"
     >
       <v-col cols="12">
         <LimitBar
-
           :ingredientInfo="ingredient"
           :ingredientId="id"
         ></LimitBar>
       </v-col>
     </v-row>
 
-    <h1 class="text-h2">Intakes</h1>
+    <h1 class="text-h2">{{ $t('home.intakes') }}</h1>
     <IntakeForm></IntakeForm>
     <IntakeVisualizer></IntakeVisualizer>
   </v-container>

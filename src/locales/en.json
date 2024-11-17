@@ -1,1 +1,14 @@
-{}
+{
+  "home": {
+    "current_values": "Current Values",
+    "intakes": "Intakes",
+    "now": "Now",
+    "of": "of",
+    "at": "at",
+    "time_modal": {
+      "title": "Select a different time",
+      "not_clicking": "Not clicking on 'Set time' automatticaly assumes you've taken it now",
+      "set_time": "Set time"
+    }
+  },
+}

@@ -13,7 +13,7 @@
     emit('timeSelected', moment.valueOf());
 
     show.value = false;
-    
+
     date.value = "";
     time.value = "";
   }
@@ -30,13 +30,13 @@
       width="auto"
     >
     <template #title>
-      Select a different time
+      {{ $t('home.time_modal.title') }}
     </template>
     <template #append>
       <v-icon icon="mdi-close" @click="show = false"></v-icon>
     </template>
     <v-card-text>
-      <p>Not clicking on "Set time" automatticaly assumes you've taken it now</p>
+      <p>{{ $t('home.time_modal.not_clicking') }}</p>
       <v-row>
         <v-col cols="12" md="6">
           <v-text-field
@@ -57,7 +57,7 @@
       </v-row>
       <v-row>
         <v-col cols="12">
-          <v-btn block color="primary" @click="setTime">Set time</v-btn>
+          <v-btn block color="primary" @click="setTime">{{ $t('home.time_modal.set_time') }}</v-btn>
         </v-col>
       </v-row>
     </v-card-text>

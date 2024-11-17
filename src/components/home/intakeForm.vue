@@ -106,7 +106,7 @@ function setTime(time) {
         </v-btn-toggle>
       </v-col>
       <v-col cols="12" md="3" class="d-flex justify-center align-baseline">
-        <p class="me-2">{{ pill.takenAt ? (new Date(pill.takenAt)).toLocaleString() : 'Now' }}</p>
+        <p class="me-2">{{ pill.takenAt ? (new Date(pill.takenAt)).toLocaleString() : $t('home.now') }}</p>
         <TimeModal @timeSelected="setTime"></TimeModal>
       </v-col>
       <v-col cols="12" md="3">

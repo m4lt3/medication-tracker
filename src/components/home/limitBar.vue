@@ -82,7 +82,7 @@ const nextIntake = computed(() => {
 <template>
   <p class="text-h4">{{ props.ingredientInfo.name }}</p>
   <v-progress-linear :model-value="progress" :color="progressColor" height="25rem">
-    {{ currentIntake }} of {{ props.ingredientInfo.limit }} mg
+    {{ currentIntake }} {{ $t('home.of') }} {{ props.ingredientInfo.limit }} mg
   </v-progress-linear>
-  <p class="text-caption" v-if="relevantIntakes.length > 0">-{{ nextIntake.amount }} mg at {{ (new Date(nextIntake.at)).toLocaleString() }}</p>
+  <p class="text-caption" v-if="relevantIntakes.length > 0">-{{ nextIntake.amount }} mg {{ $t('home.at') }} {{ (new Date(nextIntake.at)).toLocaleString() }}</p>
 </template>
