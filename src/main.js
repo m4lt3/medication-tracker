@@ -20,6 +20,7 @@ import en from '@/locales/en.json';
 import de from '@/locales/de.json';
 
 const i18n = createI18n({
+  legacy: false,
   locale: 'en',
   messages: {
     en,
