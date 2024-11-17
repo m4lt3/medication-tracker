@@ -1,57 +1,9 @@
-# essentials
+# Medication Tracker
 
-## Project setup
+This is a Web app intended for secure tracking of your medication intake.
 
-```
-# yarn
-yarn
+This is not an approved medicine product.
 
-# npm
-npm install
+## Contributions
 
-# pnpm
-pnpm install
-```
-
-### Compiles and hot-reloads for development
-
-```
-# yarn
-yarn dev
-
-# npm
-npm run dev
-
-# pnpm
-pnpm dev
-```
-
-### Compiles and minifies for production
-
-```
-# yarn
-yarn build
-
-# npm
-npm run build
-
-# pnpm
-pnpm build
-```
-
-### Lints and fixes files
-
-```
-# yarn
-yarn lint
-
-# npm
-npm run lint
-
-# pnpm
-pnpm lint
-```
-
-### Customize configuration
-
-See [Configuration Reference](https://vitejs.dev/config/).
+Feel free to submit issues, or pull requests!

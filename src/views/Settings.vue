@@ -30,6 +30,7 @@ const emit = defineEmits(['openDecryptionModal']);
       <v-icon color="grey" icon="mdi-wrench-cog" style="font-size:5em"></v-icon>
       <h1 class="text-h2">{{ $t('settings.title') }}</h1>
       <p class="text-subtitle-1">{{ $t('settings.select') }}</p>
+      <a href="https://github.com/m4lt3/medication-tracker/issues" target="_blank"><v-icon icon="mdi-github"></v-icon> v1.3.0</a>
     </div>
   </v-container>
 </template>
