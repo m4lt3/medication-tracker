@@ -14,4 +14,19 @@
       "set_time": "Set time"
     }
   },
+  "modals": {
+    "decrypt": {
+      "wrong_password_title": "Wrong password",
+      "wrong_password_text": "The test to decrypt data did not succeed",
+      "title": "Enter Password",
+      "unlock": "Unlock Database"
+    },
+    "delete": {
+      "title": "Are you sure?",
+      "p1": "You won't be able to recover deleted data",
+      "p2": "Items referencing this entry must be deleted or altered first.",
+      "yes":"Yes, delete",
+      "nvm": "Never mind"
+    }
+  }
 }

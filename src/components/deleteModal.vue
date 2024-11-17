@@ -25,15 +25,15 @@ const show = ref(false);
       width="auto"
     >
       <v-card-item>
-        <v-card-title>Are you sure?</v-card-title>
+        <v-card-title>{{ $t('modals.delete.title') }}</v-card-title>
       </v-card-item>
       <v-card-text>
-        <p>You won't be able to recover deleted data</p>
-        <p>Items referencing this entry must be deleted or altered first.</p>
+        <p>{{ $t('modals.delete.p1') }}</p>
+        <p>{{ $t('modals.delete.p2') }}</p>
       </v-card-text>
       <v-card-actions>
-        <v-btn color="error" @click="$emit('delete'); show = false">Yes, delete</v-btn>
-        <v-btn @click="show = false" color="secondary">Never mind</v-btn>
+        <v-btn color="error" @click="$emit('delete'); show = false">{{ $t('modals.delete.yes') }}</v-btn>
+        <v-btn @click="show = false" color="secondary">{{ $t('modals.delete.nvm') }}</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>

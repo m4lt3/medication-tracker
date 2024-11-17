@@ -3,8 +3,10 @@ import { ref } from 'vue';
 import CryptoJS from 'crypto-js';
 
 import { useIndexedStore } from '@/store/indexed';
+import { useI18n } from "vue-i18n";
 
 const indexedStore = useIndexedStore();
+const { t } = useI18n();
 
 const props = defineProps(['testphrase', 'show']);
 const emit = defineEmits(['close', 'unlocked']);
@@ -20,7 +22,7 @@ function unlock() {
     emit('unlocked', password.value);
     password.value = '';
   } else {
-    feedback.value = { visible: true, type: 'error', title: 'Wrong password', text: 'The test to decrypt data did not succeed' };
+    feedback.value = { visible: true, type: 'error', title: t('modals.decrypt.wrong_password_title'), text: t('modals.decrypt.wrong_password_text') };
   }
 }
 </script>
@@ -34,7 +36,7 @@ function unlock() {
       prepend-icon="mdi-lock-open-outline"
     >
       <template #title>
-        Enter Password
+        {{ $t('modals.decrypt.title') }}
       </template>
       <template #append>
         <v-icon icon="mdi-close" @click="$emit('close')"></v-icon>
@@ -46,7 +48,7 @@ function unlock() {
           @keyup.enter="unlock"
         ></v-text-field>
         <v-alert class="my-2" variant="tonal" v-bind="feedback" v-model="feedback.visible" closable></v-alert>
-        <v-btn block @click="unlock" prepend-icon="mid-lock-open-outline">Unlock Database</v-btn>
+        <v-btn block @click="unlock" prepend-icon="mid-lock-open-outline">{{ $t('modals.decrypt.unlock') }}</v-btn>
       </v-card-text>
     </v-card>
   </v-dialog>
