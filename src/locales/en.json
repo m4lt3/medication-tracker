@@ -10,9 +10,116 @@
     "at": "at",
     "time_modal": {
       "title": "Select a different time",
-      "not_clicking": "Not clicking on 'Set time' automatticaly assumes you've taken it now",
+      "not_clicking": "Not clicking on 'Set time' automatically assumes you've taken it now",
       "set_time": "Set time"
     }
+  },
+  "settings": {
+    "language": {
+      "title": "Language"
+    },
+    "pills": {
+      "title": "Pills and Pill Groups",
+      "p1": "Here you can manage the different Pills you usually take and want to have available in your selection screen.",
+      "p2": "You can use Pill groups for a better overview in your dropdown. Other than that, they don't have much use.",
+      "p3": "Pills can belong to a Group and can contain one or multiple of your tracked ingredients. On selecting, you can also decide between a whole or just half a pill.",
+      "changes_saved_title": "Changes saved!",
+      "changes_saved_text": "Your changes have been saved",
+      "save_failed_title": "Something went wrong!",
+      "group_added_title": "Group added!",
+      "group_added_text": "You can now add Pills to this group",
+      "group_deleted_title": "Group deleted!",
+      "add_edit_group": "Add or Edit Group",
+      "no_ingredients_title": "Your pill has no ingredients!",
+      "no_ingredients_text": "Please add at least one ingredient to save your pill",
+      "pill_added_title": "Pill added!",
+      "pill_added_text": "You can now select this Pill on the main screen",
+      "pill_deleted_title": "Pill deleted!",
+      "pill_deleted_text": "This pill will no longer be selectable",
+      "add_edit_pill": "Add or Edit Pill",
+      "ingredient": "Ingredient",
+      "amount": "Amount",
+      "groups": "Pill Groups",
+      "name": "Name",
+      "pills": "Pills",
+      "group": "Group",
+      "ingredients": "Ingredients"
+    },
+    "ingredients": {
+      "changes_saved_title": "Changes saved",
+      "changes_saved_text": "Your changes have been saved",
+      "ingredient_added_title": "Ingredient added",
+      "ingredient_added_text": "The ingredient has been added for tracking. You may reference it in pills now",
+      "ingredient_deleted_success_title": "Success!",
+      "ingredient_deleted_success_text": "Ingredient deleted",
+      "ingredient_deleted_fail_title": "Something went wrong",
+      "title": "Ingredients",
+      "p1": "Ingredients are the main purpose of this Application. Here you can enter what trackable ingredients your pills can contain, as well as your personal limit and how long this limit should be kept.",
+      "p2": "For example, a person with a body weight of 75kg should not consume more than 800mg of Ibuprofen within 6 hours:",
+      "p3": "Remember that you should always talk about these values with a professional, as personal limits and time frames can vary based on many factors.",
+      "name": "Name",
+      "limit": "Limit",
+      "in_body": "In my body for",
+      "6_hour_example": "6 Hours",
+      "edit_add": "Edit or Add Ingredients",
+      "minutes": "Minute(s)",
+      "hours": "Hour(s)",
+      "days": "Day(s)",
+      "save_action": "Save",
+      "period": "Period"
+    },
+    "export": {
+      "title": "Import and Export",
+      "p1": "If you want to transfer your data to another device or want to have (or use) a backup, you can do so here",
+      "p2": "If your local data is encrypted, your backup will also be encrypted, otherwise it will be in plain text. When importing an encrypted backup file, note that you will have to supply the password it was encrypted with, but from there on it will use the encryption settings of the new device.",
+      "p3": "Manually editing the exported file can lead to permanent data loss.",
+      "export": {
+        "title": "Export",
+        "p1": "Keep in Mind that only your Data will be exported (encrypted or unencrypted). Settings such as 'keep intake history' will not be transferred",
+        "export_action": "Export"
+      },
+      "import": {
+        "title": "Import",
+        "p1": "Keep in Mind that importing the data will erase existing data (apart from your encryption settings)",
+        "import_action": "Import"
+      }
+    },
+    "security": {
+      "encryption_enabled_title": "Encryption enabled",
+      "encryption_enabled_text": "Your data is even more safe now!",
+      "error": "Something went wrong",
+      "password_incorrect_title": "Password incorrect",
+      "password_incorrect_text": "Your current Password is required for confirmation",
+      "encryption_disabled_title": "Encryption disabled",
+      "encryption_disabled_text": "No more annoying password prompts!",
+      "title": "Security",
+      "p1": "This Application may store sensitive data about your medication intake. Thus, security is of utmost importance to us.",
+      "p2": "Which pills you have taken is only stored as long as it is necessary to track a potential overdose. These time limits are checked at startup or can be refreshed manually.",
+      "p3": "All your Data is stored locally and can only be accessed by accessing your device.",
+      "p3b": "If you are in private browsing mode, your data will be erased after you close the browser",
+      "p4": "Additionally, you can protect your information using a password. It will e encrypted before saving it to disk and we only store it in your browser while you use the app (session storage). If you forget your password, your information cannot be recovered.",
+      "p5": "You can also purge all your saved data",
+      "data_is": "Your data is currently",
+      "not": "not",
+      "ecrypted": "encrypted",
+      "new_pw": "New Password",
+      "confirm_pw": "Confirm Password",
+      "enable_encryption": "Enable Encryption",
+      "current_pw": "Current Password",
+      "disable_encryption": "Disable Encryption",
+      "intake_history": "Intake saving settings",
+      "save_beyond": "Keep my intakes saved beyond their expiration",
+      "purge": "Purge all data"
+    },
+    "navbar": {
+      "ingredients": "Manage Tracked Ingredients",
+      "pills": "Manage Pills",
+      "security": "Security",
+      "import_export": "Import and Export",
+      "language": "Language"
+    },
+    "select": "Please select an Option from the sidebar",
+    "title": "Settings"
   },
   "modals": {
     "decrypt": {
@@ -28,5 +135,11 @@
       "yes":"Yes, delete",
       "nvm": "Never mind"
     }
+  },
+  "forms": {
+    "required": "Required",
+    "save_action": "Save",
+    "min_8": "Must be at least 8 characters long",
+    "password_mismatch": "Passwords do not match"
   }
 }

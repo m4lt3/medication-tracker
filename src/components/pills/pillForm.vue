@@ -1,10 +1,12 @@
 <script setup>
 import { ref, watch, computed } from 'vue';
 import { useIndexedStore } from '@/store/indexed';
+import { useI18n } from "vue-i18n";
 
 import DeleteModal from '@/components/deleteModal.vue';
 
 const indexedStore = useIndexedStore();
+const { t } = useI18n();
 
 const props = defineProps([ 'edit' ]);
 const emit = defineEmits([ 'change' ]);
@@ -42,7 +44,7 @@ const rules = {
     if (value) {
       return true;
     }
-    return "Required"
+    return t('forms.required');
   }
 };
 const form = ref(null);
@@ -65,7 +67,7 @@ async function save() {
   }
 
   if (pill.value.contents.length == 0) {
-    feedback.value = { visible: true, type: 'error', title: 'Your pill has no ingredients!', text: 'Please add at least one ingredient to sace your pill' };
+    feedback.value = { visible: true, type: 'error', title: t('settings.pills.no_ingredients_title'), text: t('settings.pills.no_ingredients_title') };
     return;
   }
 
@@ -78,27 +80,27 @@ async function save() {
       let id = Number(entry.id);
       delete entry.id;
       await indexedStore.update("pills", id, entry);
-      feedback.value = { visible: true, type: 'success', title: 'Changes saved!', text: 'Your changes have been saved' };
+      feedback.value = { visible: true, type: 'success', title: t('settings.pills.changes_saved_title'), text: t('settings.pills.changes_saved_text') };
       emit('change');
     } else {
       await indexedStore.add("pills", entry);
-      feedback.value = { visible: true, type: 'success', title: 'Pill added!', text: 'You can now select this Pill on the main screen' };
+      feedback.value = { visible: true, type: 'success', title: t('settings.pills.pill_added_title'), text: t('settings.pills.pill_added_text') };
       emit('change');
     }
     pill.value = { contents: [] };
   } catch (e) {
     console.error(e)
-    feedback.value = { visible: true, type: 'error', title: 'Something went wrong!', text: e.message };
+    feedback.value = { visible: true, type: 'error', title: t('settings.pills.save_failed_title'), text: e.message };
   }
 }
 
 async function deletePill(id) {
   try {
     await indexedStore.remove("pills", id);
-    feedback.value = { visible: true, type: 'success', title: 'Pill deleted!', text: 'This pill will no longer be selectable until added again' };
+    feedback.value = { visible: true, type: 'success', title: t('settings.pills.pill_deleted_title'), text:t('settings.pills.pill_deleted_text') };
     emit('change');
   } catch (e) {
-    feedback.value = { visible: true, type: 'error', title: 'Something went wrong!', text: e.message };
+    feedback.value = { visible: true, type: 'error', title: t('settings.pills.save_failed_title'), text: e.message };
   }
 }
 
@@ -123,7 +125,7 @@ function addNewContent() {
   <v-expansion-panels v-model="expanded">
     <v-expansion-panel>
       <v-expansion-panel-title>
-        Add or Edit Pill
+
       </v-expansion-panel-title>
       <v-expansion-panel-text>
         <v-form ref="form" v-model="valid">
@@ -132,8 +134,8 @@ function addNewContent() {
           <v-table hover>
             <thead>
               <tr>
-                <th>Ingredient</th>
-                <th>Amount</th>
+                <th>{{ $t('settings.pills.ingredient') }}</th>
+                <th>{{ $t('settings.pills.amount') }}</th>
                 <th></th>
               </tr>
             </thead>
@@ -148,7 +150,7 @@ function addNewContent() {
               <tr>
                 <td>
                   <v-select
-                    label="Ingredient"
+                    :label="$t('settings.pills.ingredient')"
                     v-model="newContent.ingredient"
                     :items="ingredientSelect"
                     hide-details
@@ -157,7 +159,7 @@ function addNewContent() {
                 </td>
                 <td>
                   <v-text-field
-                    label="Amount (mg)"
+                    :label="$t('settings.pills.amount') + ' (mg)'"
                     type="number"
                     min="0"
                     v-model="newContent.amount"
@@ -170,7 +172,7 @@ function addNewContent() {
             </tfoot>
           </v-table>
           <div class="d-flex mt-2">
-            <v-btn color="blue" prepend-icon="mdi-content-save" @click="save" style="flex-grow: 3" >Save</v-btn>
+            <v-btn color="blue" prepend-icon="mdi-content-save" @click="save" style="flex-grow: 3" >{{$t('forms.save_action') }}</v-btn>
             <DeleteModal v-if="pill.id" style="flex-grow: 1; margin-left: 4px;" @delete="deletePill(Number(pill.id))"></DeleteModal>
           </div>
         </v-form>

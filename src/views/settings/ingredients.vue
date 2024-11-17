@@ -1,9 +1,11 @@
 <script setup>
 import { ref, watch } from 'vue';
 import { useIndexedStore } from '@/store/indexed';
+import { useI18n } from "vue-i18n";
 
 import DeleteModal from '@/components/deleteModal.vue';
 
+const { t } = useI18n();
 const indexedStore = useIndexedStore();
 
 const feedback = ref({ visible: false});
@@ -18,7 +20,7 @@ const rules = {
     if (value) {
       return true;
     }
-    return "Required"
+    return t('forms.required');
   }
 };
 
@@ -49,10 +51,10 @@ async function save() {
     let id = Number(entry.id);
     delete entry.id;
     indexedStore.update("categories", id, entry);
-    feedback.value = { visible: true, type: 'success', title: 'Schanges saved', message: 'Your changes have been saved'};
+    feedback.value = { visible: true, type: 'success', title: t('settings.ingredients.changes_saved_title'), message: t('settings.ingredients.changes_saved_text')};
   } else {
     indexedStore.add("categories", entry);
-    feedback.value = { visible: true, type: 'success', title: 'Ingredient added', message: 'The ingredient has been addet for tracking. You may reference it in pills now'};
+    feedback.value = { visible: true, type: 'success', title: t('settings.ingredients.ingredient_added_title'), message: t('settings.ingredients.ingredient_added_text')};
   }
   category.value = {};
 }
@@ -116,24 +118,24 @@ watch(category, (newVal, oldVal) => {
 function deleteCategory(id) {
   try {
     indexedStore.remove("categories", id);
-    feedback.value = { visible: true, type: 'success', title: 'Success!', message: 'Ingredient deleted' };
+    feedback.value = { visible: true, type: 'success', title: t('settings.ingredients.ingredient_deleted_success_title'), message: t('settings.ingredients.ingredient_deleted_success_text') };
     category.value = {};
   } catch (e) {
-    feedback.value = { visible: true, type: 'error', title: 'Something went wrong', message: e};
+    feedback.value = { visible: true, type: 'error', title: t('settings.ingredients.ingredient_deleted_fail_title'), message: e};
   }
 }
 </script>
 <template>
-  <h1 class="text-h2">Ingredients</h1>
+  <h1 class="text-h2">{{ $t('settings.ingredients.title') }}</h1>
   <p>
-    Ingredients are the main purpose of this Application. Here you can enter what trackable ingredients your pills can contain, as well as your personal limit and how long this limit should be kept.
+    {{ $t('settings.ingredients.p1') }}
   </p>
   <p>
-    For example, a person with a body weight of 75kg should not consume more than 800mg of Ibuprofen within 6 hours:
+    {{ $t('settings.ingredients.p2') }}
   </p>
   <v-list>
     <v-list-item
-      v-for="(item, index) in [{ subtitle: 'Name', title: 'Ibuprofen' }, { subtitle: 'Limit', title: '800' }, { subtitle: 'In my body', title: '6 Hours' }]"
+      v-for="(item, index) in [{ subtitle: $t('settings.ingredients.name'), title: 'Ibuprofen' }, { subtitle: $t('settings.ingredients.limit'), title: '800' }, { subtitle: $t('settings.ingredients.in_body'), title: $t('settings.ingredients.6_hour_example') }]"
       :key="index"
       :title="item.title"
       :subtitle="item.subtitle"
@@ -141,22 +143,22 @@ function deleteCategory(id) {
     </v-list-item>
   </v-list>
   <p>
-    Remember that you should always talk about these Values with a professional, als personal limits and time frames can vary based on may factors.
+    {{ $t('settings.ingredients.p3') }}
   </p>
   <v-expansion-panels class="mt-2" v-model="panelExpanded">
     <v-expansion-panel>
       <v-expansion-panel-title>
-        Edit or Add Ingredients
+        {{ $t('settings.ingredients.edit_add') }}
       </v-expansion-panel-title>
       <v-expansion-panel-text>
         <v-form ref="categoryForm" v-model="formValid">
           <v-text-field
-            label="Name"
+            :label="$t('settings.ingredients.name')"
             v-model="category.name"
             :rules="[rules.required]"
           ></v-text-field>
           <v-text-field
-            label="Limit (mg)"
+            :label="$t('settings.ingredients.limit') + ' (mg)'"
             v-model="category.limit"
             type="number"
             min="0"
@@ -165,7 +167,7 @@ function deleteCategory(id) {
           <v-row>
             <v-col cols="6">
               <v-text-field
-                label="In my body for"
+                :label="$t('settings.ingredients.in_body')"
                 v-model="category.expiresAmount"
                 type="number"
                 min="0"
@@ -174,7 +176,7 @@ function deleteCategory(id) {
             </v-col>
             <v-col cols="6">
               <v-select
-                :items="[{ title:'Minute(s)', value: 'minute' }, { title:'Hour(s)', value: 'hour' }, { title:'Day(s)', value: 'day' }]"
+                :items="[{ title:$t('settings.ingredients.minutes'), value: 'minute' }, { title:$t('settings.ingredients.hours'), value: 'hour' }, { title:$t('settings.ingredients.days'), value: 'day' }]"
                 v-model="category.expiresUnit"
                 class="mx-1"
                 :rules="[rules.required]"
@@ -182,7 +184,7 @@ function deleteCategory(id) {
             </v-col>
           </v-row>
           <div class="d-flex flex-row flex-wrap">
-            <v-btn @click="save" color="blue" prepend-icon="mdi-content-save" style="flex-grow: 3">Save</v-btn>
+            <v-btn @click="save" color="blue" prepend-icon="mdi-content-save" style="flex-grow: 3">{{ $t('settings.ingredients.save_action') }}</v-btn>
             <DeleteModal v-if="category.id" style="flex-grow: 1; margin-left: 4px;" @delete="deleteCategory(category.id)"></DeleteModal>
           </div>
         </v-form>
@@ -195,9 +197,9 @@ function deleteCategory(id) {
   >
     <thead>
       <tr>
-        <th>Name</th>
-        <th>Limit</th>
-        <th>Period</th>
+        <th>{{ $t('settings.ingredients.name') }}</th>
+        <th>{{ $t('settings.ingredients.limit') }}</th>
+        <th>{{ $t('settings.ingredients.period') }}</th>
         <th></th>
       </tr>
     </thead>

@@ -12,16 +12,16 @@ const editPillId = ref(null);
 </script>
 <template>
   <v-container>
-    <h1 class="text-h2">Pills and Pill Groups</h1>
-    <p>Here you can manage the different Pills you usually take and want to have available in your selection screen.</p>
-    <p>You can use Pill groups for a better overview in your dorpdown. Other than that, they don't have much use.</p>
-    <p>Pills can belong to a Group and can contain one or multiple of your tracked ingredients and on selecting, you can also decite between a whole or just half a pill.</p>
-    <h2 class="text-h3">Pill Groups</h2>
+    <h1 class="text-h2">{{ $t('settings.pills.title') }}</h1>
+    <p>{{ $t('settings.pills.p1') }}</p>
+    <p>{{ $t('settings.pills.p2') }}</p>
+    <p>{{ $t('settings.pills.p3') }}</p>
+    <h2 class="text-h3">{{ $t('settings.pills.groups') }}</h2>
     <GroupForm :edit="editGroupId" @change="editGroupId = null"></GroupForm>
     <v-table hover>
       <thead>
         <tr>
-          <th>Name</th>
+          <th>{{ $t('settings.pills.name') }}</th>
           <th></th>
         </tr>
       </thead>
@@ -32,14 +32,14 @@ const editPillId = ref(null);
         </tr>
       </tbody>
     </v-table>
-    <h2 class="text-h3">Pills</h2>
+    <h2 class="text-h3">{{ $t('settings.pills.pills') }}</h2>
     <PillForm :edit="editPillId" @change="editPillId = null"></PillForm>
     <v-table hover>
       <thead>
         <tr>
-          <th>Name</th>
-          <th>Group</th>
-          <th>Ingredients</th>
+          <th>{{ $t('settings.pills.name') }}</th>
+          <th>{{ $t('settings.pills.group') }}</th>
+          <th>{{ $t('settings.pills.ingredients') }}</th>
           <th></th>
         </tr>
       </thead>

@@ -29,11 +29,11 @@ async function exportData() {
     prepend-icon="mdi-arrow-up-bold"
   >
     <template #title>
-      Export
+      {{ $t('settings.export.export.title') }}
     </template>
     <v-card-text>
-      <p>Keep in Mind that only your Data will be exported (encrypted or unencrypted). Settings such as intake history will not be transferred</p>
-      <v-btn block color="primary" prepend-icon="mdi-arrow-up" @click="exportData">Export</v-btn>
+      <p>{{ $t('settings.export.export.p1') }}</p>
+      <v-btn block color="primary" prepend-icon="mdi-arrow-up" @click="exportData">{{ $t('settings.export.export.export_action') }}</v-btn>
     </v-card-text>
   </v-card>
 </template>

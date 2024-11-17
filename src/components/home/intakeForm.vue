@@ -1,10 +1,13 @@
 <script setup>
 import { ref, computed } from 'vue';
 import { useIndexedStore } from '@/store/indexed';
+import { useI18n } from "vue-i18n";
 
 import TimeModal from '@/components/home/timeModal.vue';
 
 const emit = defineEmits(['change']);
+
+const { t } = useI18n();
 const indexedStore = useIndexedStore();
 
 const pillSelect = computed(() => {
@@ -54,7 +57,7 @@ const rules = {
     if (value) {
       return true;
     }
-    return "Required"
+    return return t('forms.required');
   }
 }
 const form = ref(null);

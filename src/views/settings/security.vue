@@ -5,6 +5,7 @@ import { handler as db } from '@/utils/DataHandler.js';
 
 import { useIndexedStore } from '@/store/indexed';
 import { useConfigStore } from '@/store/config';
+import { useI18n } from "vue-i18n";
 
 import { AES } from 'crypto-js';
 
@@ -12,6 +13,7 @@ import DeleteModal from '@/components/deleteModal.vue';
 
 const indexedStore = useIndexedStore();
 const configStore = useConfigStore();
+const { t } = useI18n();
 
 const password = ref({});
 
@@ -29,19 +31,19 @@ const rules = {
     if (value) {
       return true;
     }
-    return "Required";
+    return t('forms.required');
   },
   minLength: (value) => {
     if (value.length > 7) {
       return true;
     }
-    return "Must be at least 8 characters long";
+    return t('forms.min_8');
   },
   samePassword: (value) => {
     if (password.value.new == password.value.confirm) {
       return true;
     }
-    return "Passwords do not match";
+    return t('forms.password_mismatch');
   }
 };
 
@@ -59,14 +61,14 @@ async function encrypt() {
 
   try {
     await db.encryptDB();
-    feedback.value = { visible: true, type: 'success', title: 'Encryption enabled', text: 'Your data is even more safe now!' };
+    feedback.value = { visible: true, type: 'success', title: t('settings.security.encryption_enabled_title'), text: t('settings.security.encryption_enabled_text') };
   } catch (e) {
     configStore.config.encrypted = false;
     configStore.config.testPhrase = undefined;
 
     configStore.password = null;
 
-    feedback.value = { visible: true, type: 'error', title: 'Something went wrong', text: e.message };
+    feedback.value = { visible: true, type: 'error', title: t('settings.security.error'), text: e.message };
   }
 
 }
@@ -78,7 +80,7 @@ async function decrypt() {
   }
 
   if (password.value.old != configStore.password) {
-    feedback.value = { visible: true, type: 'error', title: 'Password incorrect', text: 'Your current Password is required for confirmation!' };
+    feedback.value = { visible: true, type: 'error', title: t('settings.security.password_incorrect_title'), text: t('settings.security.password_incorrect_text') };
     return;
   }
 
@@ -88,7 +90,7 @@ async function decrypt() {
   configStore.config.testphrase = undefined;
   configStore.password = null;
 
-  feedback.value = { visible: true, type: 'success', title: 'Encryption disabled', text: 'No more annoying password prompts!' };
+  feedback.value = { visible: true, type: 'success', title: t('settings.security.encryption_disabled_title'), text: t('settings.security.encryption_disabled_text') };
 }
 
 async function purge() {
@@ -103,60 +105,60 @@ async function purge() {
 </script>
 <template>
   <v-container>
-    <h1 class="text-h2">Security</h1>
-    <p>This Application may store sensitive data about your medication intake. Thus, security is of utmost importance to us.</p>
-    <p>Which pills you have taken is only stored as long as it is necessary to track a potential overdose. These time limits are checked at startup or can be refreshed manually.</p>
-    <p>All your Data is stored locally and can only be accessed by accessing your device. <b>If you are in private browsing mode, your data will be erased after you close the browser</b></p>
-    <p>Additionally, you can protect your information using a password. It will e encrypted before saving it to disk and we only store it in your browser while you use the app (session storage). If you forget your password, your information cannot be recovered.</p>
-    <p>You can also purge all your saved data</p>
+    <h1 class="text-h2">{{ $t("settings.security.title") }}</h1>
+    <p>{{ $t("settings.security.p1") }}</p>
+    <p>{{ $t("settings.security.p2") }}</p>
+    <p>{{ $t("settings.security.p3") }} <b>{{ $t("settings.security.p3b") }}</b></p>
+    <p>{{ $t("settings.security.p4") }}</p>
+    <p>{{ $t("settings.security.p5") }}</p>
     <v-card
       class="my-3"
     >
       <v-card-item>
-        <v-card-title>Your data is currently{{ configStore.config.encrypted ? ' ' : ' not ' }}encrypted</v-card-title>
+        <v-card-title>{{ $t('settings.security.data_is') }}{{ configStore.config.encrypted ? ' ' : ' ' + $t('settings.security.not') }} {{ $t('settings.security.encrypted') }}</v-card-title>
       </v-card-item>
       <v-card-text>
         <v-form ref="encryptionForm" v-model="ecValid" v-if="!configStore.config.encrypted">
           <v-text-field
             type="password"
-            label="New Password"
+            :label="$t('settings.security.new_pw')"
             v-model="password.new"
             :rules="[rules.required, rules.minLength]"
           ></v-text-field>
           <v-text-field
             type="password"
-            label="Confirm Password"
+            :label="$t('settings.security.confirm_pw')"
             v-model="password.confirm"
             :rules="[rules.required, rules.samePassword]"
           ></v-text-field>
-          <v-btn block prepend-icon="mdi-lock-outline" @click="encrypt">Enable Encryption</v-btn>
+          <v-btn block prepend-icon="mdi-lock-outline" @click="encrypt">{{ $t('settings.security.enable_encryption') }}</v-btn>
         </v-form>
         <v-form ref="decryptionForm" v-model="dcValid" v-else>
           <v-text-field
             type="password"
-            label="Current Password"
+            :label="$t('settings.security.current_pw')"
             v-model="password.old"
             :rules="[rules.required]"
           ></v-text-field>
-          <v-btn block prepend-icon="mdi-lock-open-outline" @click="decrypt">Disable Encryption</v-btn>
+          <v-btn block prepend-icon="mdi-lock-open-outline" @click="decrypt">{{ $t('settings.security.disable_encryption') }}</v-btn>
         </v-form>
       </v-card-text>
     </v-card>
     <v-card class="my-3">
       <v-card-item>
         <v-card-title>
-          Intake saving settings
+          {{ $t('settings.security.intake_history') }}
         </v-card-title>
         <v-card-text>
           <v-switch
             v-model="configStore.config.intakeHistory"
-            label="Keep my intakes saved beyond their expiration"
+            :label="$t('settings.security.save_beyond')"
           ></v-switch>
         </v-card-text>
       </v-card-item>
     </v-card>
     <v-alert class="my-2" v-model="feedback.visible" v-bind="feedback" closable></v-alert>
-    <DeleteModal style="width: 100%" text="Purge all data" @delete="purge"></DeleteModal>
+    <DeleteModal style="width: 100%" :text="$t('settings.security.purge')" @delete="purge"></DeleteModal>
 
   </v-container>
 </template>

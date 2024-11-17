@@ -67,10 +67,10 @@ function unlock(password) {
     prepend-icon="mdi-arrow-down-bold"
   >
   <template #title>
-    Import
+    {{ $t{'settings.export.import.title'} }}
   </template>
     <v-card-text>
-      <p>Keep in Mind that importing the data will erase existing data (apart from your encryption settings)</p>
+      <p>{{ $t{'settings.export.import.p1'} }}</p>
       <v-row>
         <v-col cols="12">
           <v-file-input
@@ -99,7 +99,7 @@ function unlock(password) {
         prepend-icon="mdi-arrow-down"
         @click="importData"
         :disabled="importFileData.stores == undefined || importRequiresPassword"
-      >Import</v-btn>
+      >{{ $t{'settings.export.import.import_action'} }}</v-btn>
     </v-card-text>
   </v-card>
 </template>
