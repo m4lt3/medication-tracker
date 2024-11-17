@@ -20,7 +20,7 @@
     <v-app-bar-title>
       <router-link :to="{ name: 'home' }">
         <v-icon icon="mdi-medication-outline"></v-icon>
-        Medication-Tracker
+        {{ $t("app_bar.title") }}
       </router-link>
     </v-app-bar-title>
     <v-spacer></v-spacer>
@@ -53,7 +53,7 @@
     v-model="snackbar"
     :timeout="2000"
   >
-    Expired Intakes have been updated
+    {{ $t("app_bar.expired_update") }}
   </v-snackbar>
 </template>
 

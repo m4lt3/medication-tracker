@@ -139,5 +139,9 @@
   "forms": {
     "required": "Benötigt",
     "save_action": "Speichern"
+  },
+  "app_bar": {
+    "title": "Medikamenten-Überwachung",
+    "expired_update": "Abgelaufene Einnahmen wurden aktualisiert"
   }
 }

@@ -141,5 +141,9 @@
     "save_action": "Save",
     "min_8": "Must be at least 8 characters long",
     "password_mismatch": "Passwords do not match"
+  },
+  "app_bar": {
+    "title": "Medication-Tracker",
+    "expired_update": "Expired Intakes have been updated"
   }
 }
