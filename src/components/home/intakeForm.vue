@@ -57,7 +57,7 @@ const rules = {
     if (value) {
       return true;
     }
-    return return t('forms.required');
+    return t('forms.required');
   }
 }
 const form = ref(null);

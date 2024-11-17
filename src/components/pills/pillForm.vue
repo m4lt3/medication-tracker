@@ -130,7 +130,7 @@ function addNewContent() {
       <v-expansion-panel-text>
         <v-form ref="form" v-model="valid">
           <v-text-field v-model="pill.name" label="name" :rules="[rules.required]"></v-text-field>
-          <v-select :items="groupSelect" v-model="pill.group" label="Group" clearable></v-select>
+          <v-select :items="groupSelect" v-model="pill.group" :label="$t('settings.pills.group')" clearable></v-select>
           <v-table hover>
             <thead>
               <tr>

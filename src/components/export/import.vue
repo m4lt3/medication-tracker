@@ -67,15 +67,15 @@ function unlock(password) {
     prepend-icon="mdi-arrow-down-bold"
   >
   <template #title>
-    {{ $t{'settings.export.import.title'} }}
+    {{ $t('settings.export.import.title') }}
   </template>
     <v-card-text>
-      <p>{{ $t{'settings.export.import.p1'} }}</p>
+      <p>{{ $t('settings.export.import.p1') }}</p>
       <v-row>
         <v-col cols="12">
           <v-file-input
             accept=".json"
-            label="medication tracker data file"
+            :label="$t('settings.export.import.file_label')"
             v-model="importFile"
             @update:modelValue="parseImportFile"
           ></v-file-input>
@@ -83,7 +83,7 @@ function unlock(password) {
       </v-row>
       <v-row v-if="importRequiresPassword" @click="showDecryptionModal = true" style="cursor: pointer">
         <v-col cols="12" class="d-flex align-center justify-center">
-          <v-icon icon="mdi-lock-open-outline"></v-icon> Enter Password
+          <v-icon icon="mdi-lock-open-outline"></v-icon> {{ $t('modals.decrypt.title') }}
         </v-col>
       </v-row>
       <DecryptionModal
@@ -99,7 +99,7 @@ function unlock(password) {
         prepend-icon="mdi-arrow-down"
         @click="importData"
         :disabled="importFileData.stores == undefined || importRequiresPassword"
-      >{{ $t{'settings.export.import.import_action'} }}</v-btn>
+      >{{ $t('settings.export.import.import_action') }}</v-btn>
     </v-card-text>
   </v-card>
 </template>

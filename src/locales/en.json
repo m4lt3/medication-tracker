@@ -81,7 +81,8 @@
       "import": {
         "title": "Import",
         "p1": "Keep in Mind that importing the data will erase existing data (apart from your security settings)",
-        "import_action": "Import"
+        "import_action": "Import",
+        "file_label": "medication tracker data file"
       }
     },
     "security": {
@@ -101,7 +102,7 @@
       "p5": "You can also purge all your saved data",
       "data_is": "Your data is currently",
       "not": "not",
-      "ecrypted": "encrypted",
+      "encrypted": "encrypted",
       "new_pw": "New Password",
       "confirm_pw": "Confirm Password",
       "enable_encryption": "Enable Encryption",

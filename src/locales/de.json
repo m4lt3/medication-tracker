@@ -5,7 +5,7 @@
   "home": {
     "current_values": "Aktuelle Werte",
     "intakes": "Einnahmen",
-    "now": "Jetzte",
+    "now": "Jetzt",
     "of": "von",
     "at": "um",
     "time_modal": {
@@ -81,7 +81,8 @@
       "import": {
         "title": "Import",
         "p1": "Bedenke, dass das Importieren all deine bisherigen Daten überschreibt (abgesehen von deinen Sicherheitseinstellungen)",
-        "import_action": "Importieren"
+        "import_action": "Importieren",
+        "file_label": "Daten-Datei dieser Anwendung"
       }
     },
     "security": {
@@ -101,7 +102,7 @@
       "p5": "Du kannst auch alle deine Daten löschen.",
       "data_is": "Deine Daten sind aktuell",
       "not": "nicht",
-      "ecrypted": "verschlüsselt",
+      "encrypted": "verschlüsselt",
       "new_pw": "Neues Passwort",
       "confirm_pw": "Passwort bestätigen",
       "enable_encryption": "Verschlüsselung Aktivieren",
