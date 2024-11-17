@@ -1,4 +1,7 @@
 {
+  "history": {
+    "title": "Intake History"
+  },
   "home": {
     "current_values": "Current Values",
     "intakes": "Intakes",
