@@ -1,0 +1,1 @@
+import{af as t,x as o,ag as e,F as r}from"./index.c008f4b7.js";const n=t("config",()=>{const s=o(e.read()),a=o(e.getPassword());return r(()=>{e.write(s.value)}),r(()=>{e.setPassword(a.value)}),{config:s,password:a}});export{n as u};
